@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback, useMemo, useRef, useState } from 'react';
 import { LayoutChangeEvent, Modal, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
-import { Gesture, GestureDetector, GestureStateChangeEvent, TapGestureHandlerEventPayload, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector, GestureStateChangeEvent, TapGestureHandlerEventPayload, TouchableOpacity, TouchableWithoutFeedback, gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { runOnJS } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import format from 'date-fns/format';
@@ -229,7 +229,6 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
   }, [onCancel]);
 
   const onConfirmPress = useCallback(() => {
-    console.log('test')
     if (selectedDate === undefined) {
       setSelectedDateError(true)
       return
@@ -489,6 +488,35 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
     paddingBottom: bottom + Number(stylesheet?.content?.paddingBottom || 0),
   };
 
+  const Component = gestureHandlerRootHOC(() => (
+    <TouchableWithoutFeedback
+      containerStyle={[defaultStylesheet.container, stylesheet.container]}
+      onPress={onContainerPress}
+      style={[defaultStylesheet.container, stylesheet.container]}
+    >
+      <TouchableWithoutFeedback
+        onPress={onContentPress}
+        style={[defaultStylesheet.content, stylesheet.content, contentStyles]}
+      >
+        <Text style={[defaultStylesheet.heading, stylesheet.heading]}>Select a Date</Text>
+        <View style={[defaultStylesheet.dateSelector, stylesheet.dateSelector]}>
+          {renderDateSelectorControls()}
+          {renderDateSelectorWeekdays()}
+          {renderDateSelectorWeeks()}
+        </View>
+        <View style={[defaultStylesheet.selectedDateErrorContainer, stylesheet.selectedDateErrorContainer]}>
+          {selectedDateError && <Text style={[defaultStylesheet.selectedDateErrorText, stylesheet.selectedDateErrorText]}>You need to select a date</Text>}
+        </View>
+        <TouchableOpacity onPress={onConfirmPress} style={[defaultStylesheet.confirmButton, stylesheet.confirmButton]}>
+          <Text style={[defaultStylesheet.confirmButtonText, stylesheet.confirmButtonText]}>Confirm</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onCancelPress} style={[defaultStylesheet.cancelButton, stylesheet.cancelButton]}>
+          <Text style={[defaultStylesheet.cancelButtonText, stylesheet.cancelButtonText]}>Cancel</Text>
+        </TouchableOpacity>
+      </TouchableWithoutFeedback>
+    </TouchableWithoutFeedback>
+  ))
+
   return (
     <Modal
       animationType={animationType}
@@ -496,32 +524,7 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
       transparent={transparent}
       visible={visible}
     >
-      <TouchableWithoutFeedback
-        containerStyle={[defaultStylesheet.container, stylesheet.container]}
-        onPress={onContainerPress}
-        style={[defaultStylesheet.container, stylesheet.container]}
-      >
-        <TouchableWithoutFeedback
-          onPress={onContentPress}
-          style={[defaultStylesheet.content, stylesheet.content, contentStyles]}
-        >
-          <Text style={[defaultStylesheet.heading, stylesheet.heading]}>Select a Date</Text>
-          <View style={[defaultStylesheet.dateSelector, stylesheet.dateSelector]}>
-            {renderDateSelectorControls()}
-            {renderDateSelectorWeekdays()}
-            {renderDateSelectorWeeks()}
-          </View>
-          <View style={[defaultStylesheet.selectedDateErrorContainer, stylesheet.selectedDateErrorContainer]}>
-            {selectedDateError && <Text style={[defaultStylesheet.selectedDateErrorText, stylesheet.selectedDateErrorText]}>You need to select a date</Text>}
-          </View>
-          <TouchableOpacity onPress={onConfirmPress} style={[defaultStylesheet.confirmButton, stylesheet.confirmButton]}>
-            <Text style={[defaultStylesheet.confirmButtonText, stylesheet.confirmButtonText]}>Confirm</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onCancelPress} style={[defaultStylesheet.cancelButton, stylesheet.cancelButton]}>
-            <Text style={[defaultStylesheet.cancelButtonText, stylesheet.cancelButtonText]}>Cancel</Text>
-          </TouchableOpacity>
-        </TouchableWithoutFeedback>
-      </TouchableWithoutFeedback>
+      <Component />
     </Modal>
   );
 };

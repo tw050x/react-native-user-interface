@@ -1,1 +1,1 @@
-export * from './lib/react-native-date-picker-modal';
+export { default } from './lib/react-native-date-picker-modal';
