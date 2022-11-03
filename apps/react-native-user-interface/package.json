@@ -8,8 +8,13 @@
     "react": "*",
     "react-native": "*",
     "react-native-config": "*",
+    "react-native-gesture-handler": "*",
+    "react-native-reanimated": "*",
+    "react-native-safe-area-context": "*",
     "react-native-svg": "*",
     "@react-native-async-storage/async-storage": "*",
-    "metro-config": "*"
+    "metro-config": "*",
+    "@testing-library/react": "*",
+    "date-fns": "*"
   }
 }
