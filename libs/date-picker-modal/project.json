@@ -1,7 +1,7 @@
 {
-  "name": "react-native-date-picker-modal",
+  "name": "date-picker-modal",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/react-native-date-picker-modal/src",
+  "sourceRoot": "libs/date-picker-modal/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -10,7 +10,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/react-native-date-picker-modal/**/*.{ts,tsx,js,jsx}"
+          "libs/date-picker-modal/**/*.{ts,tsx,js,jsx}"
         ]
       }
     },
@@ -18,7 +18,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/react-native-date-picker-modal/jest.config.ts",
+        "jestConfig": "libs/date-picker-modal/jest.config.ts",
         "passWithNoTests": true
       }
     }

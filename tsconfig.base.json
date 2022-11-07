@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@react-native-user-interface/react-native-date-picker-modal": [
-        "libs/react-native-date-picker-modal/src/index.ts"
+      "@react-native-user-interface/date-picker-modal": [
+        "libs/date-picker-modal/src/index.ts"
       ]
     }
   },

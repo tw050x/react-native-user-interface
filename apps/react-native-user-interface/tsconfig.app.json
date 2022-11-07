@@ -16,6 +16,6 @@
   ],
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
   "references": [
-    { "path": "../../libs/react-native-date-picker-modal/tsconfig.lib.json" }
+    { "path": "../../libs/date-picker-modal/tsconfig.lib.json" }
   ]
 }

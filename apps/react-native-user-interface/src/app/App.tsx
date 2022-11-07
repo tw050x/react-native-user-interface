@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Pressable, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import DatePickerModal from '@react-native-user-interface/react-native-date-picker-modal';
+import DatePickerModal from '@react-native-user-interface/date-picker-modal';
 import format from 'date-fns/format';
 
 //
