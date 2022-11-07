@@ -14,6 +14,7 @@
         "main": "libs/date-picker-modal/src/index.ts",
         "tsConfig": "libs/date-picker-modal/tsconfig.lib.json",
         "assets": [
+          "libs/date-picker-modal/*.md",
           "libs/date-picker-modal/src/asset/*.svg"
         ]
       }

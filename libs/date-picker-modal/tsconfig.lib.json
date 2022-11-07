@@ -3,6 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
+    "module": "None",
     "noEmit": false,
     "outDir": "../../dist/out-tsc",
     "types": ["node"]
