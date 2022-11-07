@@ -5,6 +5,19 @@
   "projectType": "library",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "inputs": [],
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/@react-native-user-interface/date-picker-modal",
+        "main": "libs/date-picker-modal/src/index.ts",
+        "tsConfig": "libs/date-picker-modal/tsconfig.lib.json",
+        "assets": [
+          "libs/date-picker-modal/src/asset/*.svg"
+        ]
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
