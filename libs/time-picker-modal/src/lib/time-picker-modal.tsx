@@ -173,13 +173,31 @@ const TimePickerModalContent: FunctionComponent<TimePickerModalContentProps> = (
   );
 
   const addOneTimeStepToSelectedDate = useCallback(
-    () => timeSelectorPositionXSharedValue.value = timeSelectorPositionXSharedValue.value - timeBarWidthAndMargins, 
-    [timeBarWidthAndMargins, timeSelectorPositionXSharedValue]
+    () => {
+      const nextPositionX = timeSelectorPositionXSharedValue.value - timeBarWidthAndMargins
+
+      const index = Math.round(-((nextPositionX - (timeSelectorWidthSharedValue.value / 2)) / timeBarWidthAndMargins));
+      const isOutOfBounds = index > (timeBoundaryIndexesLength - 1);
+
+      if (isOutOfBounds) return;
+
+      timeSelectorPositionXSharedValue.value = timeSelectorPositionXSharedValue.value - timeBarWidthAndMargins;
+    },
+    [timeBarWidthAndMargins, timeBoundaryIndexesLength, timeSelectorPositionXSharedValue, timeSelectorWidthSharedValue]
   );
 
   const removeOneTimeStepToSelectedDate = useCallback(
-    () => timeSelectorPositionXSharedValue.value = timeSelectorPositionXSharedValue.value + timeBarWidthAndMargins, 
-    [timeBarWidthAndMargins, timeSelectorPositionXSharedValue]
+    () => {
+      const nextPositionX = timeSelectorPositionXSharedValue.value + timeBarWidthAndMargins
+
+      const index = Math.round(-((nextPositionX - (timeSelectorWidthSharedValue.value / 2)) / timeBarWidthAndMargins));
+      const isOutOfBounds = 0 > index;
+
+      if (isOutOfBounds) return;
+
+      timeSelectorPositionXSharedValue.value = timeSelectorPositionXSharedValue.value + timeBarWidthAndMargins;
+    },
+    [timeBarWidthAndMargins, timeBoundaryIndexesLength, timeSelectorPositionXSharedValue, timeSelectorWidthSharedValue]
   );
 
   const onCancelPress = useCallback(
