@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useCallback, useRef } from 'react';
 import { StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import format from 'date-fns/format';
@@ -31,8 +31,8 @@ const defaultStylesheet = StyleSheet.create({
 
 //
 export type TimeSelectorControlsAndValueProps = {
-  addOneTimeStepToSelectedDate: () => void;
-  removeOneTimeStepToSelectedDate: () => void;
+  onAddOneTimeStepToSelectedDatePress: () => void;
+  onRemoveOneTimeStepToSelectedDatePress: () => void;
   selectedTimeBoundaryIndex: number;
   stylesheet?: Partial<TimeSelectorControlsAndValueDefaultStyleSheet>;
   timeStep: TimeStep;
@@ -44,21 +44,47 @@ export type TimeSelectorControlsAndValueProps = {
  * @returns {JSX.Element} 
  */
 const TimeSelectorControlsAndValue: FunctionComponent<TimeSelectorControlsAndValueProps> = ({ 
-  addOneTimeStepToSelectedDate,
-  removeOneTimeStepToSelectedDate,
+  onAddOneTimeStepToSelectedDatePress,
+  onRemoveOneTimeStepToSelectedDatePress,
   selectedTimeBoundaryIndex, 
   stylesheet = {},
   timeStep,
 }) => {
   const value = format(getDatetimeFromSelectedTimeBoundaryIndexAndTimeStep(selectedTimeBoundaryIndex, timeStep), 'hh:mm aa');
 
+  const intervalId = useRef<NodeJS.Timer | null>(null);
+
+  const onAddTimeStepLongPress = useCallback(
+    () => {
+      intervalId.current = setInterval(
+        () => onAddOneTimeStepToSelectedDatePress(), 
+        100
+      );
+    }, 
+    [onAddOneTimeStepToSelectedDatePress]
+  );
+
+  const onRemoveTimeStepLongPress = useCallback(
+    () => {
+      intervalId.current = setInterval(
+        () => onRemoveOneTimeStepToSelectedDatePress(), 
+        100
+      );
+    }, 
+    [onRemoveOneTimeStepToSelectedDatePress]
+  );
+
+  const onPressOut = useCallback(() => {
+    if (intervalId.current !== null) clearInterval(intervalId.current);
+  }, []);
+
   return (
     <View style={[defaultStylesheet.timeSelectorControlsAndValueContainer, stylesheet.timeSelectorControlsAndValueContainer]}>
-      <TouchableOpacity onPress={removeOneTimeStepToSelectedDate}>
+      <TouchableOpacity onLongPress={onRemoveTimeStepLongPress} onPress={onRemoveOneTimeStepToSelectedDatePress} onPressOut={onPressOut}>
         <CircledDash />
       </TouchableOpacity>
       <Text style={[defaultStylesheet.timeSelectorValue, stylesheet.timeSelectorValue]}>{value}</Text>
-      <TouchableOpacity onPress={addOneTimeStepToSelectedDate}>
+      <TouchableOpacity onLongPress={onAddTimeStepLongPress} onPress={onAddOneTimeStepToSelectedDatePress} onPressOut={onPressOut}>
         <CircledPlus />
       </TouchableOpacity>
     </View>

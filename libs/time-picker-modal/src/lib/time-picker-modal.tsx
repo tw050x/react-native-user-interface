@@ -172,7 +172,7 @@ const TimePickerModalContent: FunctionComponent<TimePickerModalContentProps> = (
     ],
   );
 
-  const addOneTimeStepToSelectedDate = useCallback(
+  const onAddOneTimeStepToSelectedDatePress = useCallback(
     () => {
       const nextPositionX = timeSelectorPositionXSharedValue.value - timeBarWidthAndMargins
 
@@ -186,7 +186,7 @@ const TimePickerModalContent: FunctionComponent<TimePickerModalContentProps> = (
     [timeBarWidthAndMargins, timeBoundaryIndexesLength, timeSelectorPositionXSharedValue, timeSelectorWidthSharedValue]
   );
 
-  const removeOneTimeStepToSelectedDate = useCallback(
+  const onRemoveOneTimeStepToSelectedDatePress = useCallback(
     () => {
       const nextPositionX = timeSelectorPositionXSharedValue.value + timeBarWidthAndMargins
 
@@ -252,8 +252,8 @@ const TimePickerModalContent: FunctionComponent<TimePickerModalContentProps> = (
   };
 
   const timeSelectorControlsAndValueProps: TimeSelectorControlsAndValueProps = {
-    addOneTimeStepToSelectedDate,
-    removeOneTimeStepToSelectedDate,
+    onAddOneTimeStepToSelectedDatePress,
+    onRemoveOneTimeStepToSelectedDatePress,
     selectedTimeBoundaryIndex,
     stylesheet: {
       timeSelectorControlsAndValueContainer: stylesheet.timeSelectorControlsAndValueContainer,
