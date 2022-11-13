@@ -9,7 +9,6 @@ import startOfDay from 'date-fns/startOfDay';
 import subMonths from 'date-fns/subMonths';
 import addMonths from 'date-fns/addMonths';
 
-
 // assets
 import ChevronLeft from '../asset/ChevronLeft.svg';
 import ChevronRight from '../asset/ChevronRight.svg';
@@ -241,7 +240,6 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
     if (onCancel) onCancel()
   }, [onCancel]);
 
-
   const onContentPress = useCallback(() => null, []);
 
   const onDateSelectorWeeksLayout = useCallback((event: LayoutChangeEvent) => {
@@ -381,7 +379,7 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
     }
 
     return (
-      <View onLayout={onDateSelectorWeeksLayout} style={defaultStylesheet.dateSelectorWeekdays}>
+      <View style={defaultStylesheet.dateSelectorWeekdays}>
         {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(weekdayMapper)}
       </View>
     );
@@ -499,7 +497,7 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
         style={[defaultStylesheet.content, stylesheet.content, contentStyles]}
       >
         <Text style={[defaultStylesheet.heading, stylesheet.heading]}>Select a Date</Text>
-        <View style={[defaultStylesheet.dateSelector, stylesheet.dateSelector]}>
+        <View onLayout={onDateSelectorWeeksLayout} style={[defaultStylesheet.dateSelector, stylesheet.dateSelector]}>
           {renderDateSelectorControls()}
           {renderDateSelectorWeekdays()}
           {renderDateSelectorWeeks()}

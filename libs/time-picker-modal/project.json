@@ -1,0 +1,38 @@
+{
+  "name": "time-picker-modal",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/time-picker-modal/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "inputs": [],
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/@react-native-user-interface/time-picker-modal",
+        "main": "libs/time-picker-modal/src/index.ts",
+        "tsConfig": "libs/time-picker-modal/tsconfig.lib.json",
+        "assets": [
+          "libs/time-picker-modal/*.md",
+          "libs/time-picker-modal/src/asset/*.svg"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/time-picker-modal/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/time-picker-modal/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

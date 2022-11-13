@@ -3,7 +3,7 @@
     "react": "18.2.0",
     "react-native": "0.70.4"
   },
-  "name": "@react-native-user-interface/date-picker-modal",
+  "name": "@react-native-user-interface/time-picker-modal",
   "peerDependencies": {
     "date-fns": "^2.29.3",
     "react": "18.2.0",
@@ -14,5 +14,5 @@
   },
   "license": "MIT",
   "private": false,
-  "version": "0.1.6"
+  "version": "0.0.1"
 }

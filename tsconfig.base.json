@@ -17,6 +17,9 @@
     "paths": {
       "@react-native-user-interface/date-picker-modal": [
         "libs/date-picker-modal/src/index.ts"
+      ],
+      "@react-native-user-interface/time-picker-modal": [
+        "libs/time-picker-modal/src/index.ts"
       ]
     }
   },

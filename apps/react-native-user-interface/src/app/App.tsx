@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Pressable, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import DatePickerModal from '@react-native-user-interface/date-picker-modal';
+import TimePickerModal from '@react-native-user-interface/time-picker-modal';
 import format from 'date-fns/format';
 
 //
@@ -35,12 +35,11 @@ const defaultStylesheet = StyleSheet.create({
  * @returns {JSX.Element}
  */
 export const App = () => { 
-
-  const [date, setDate] = useState(() => new Date());
+  const [datetime, setDatetime] = useState(() => new Date());
   const [isVisible, setIsVisible] = useState(false);
 
-  const onConfirm = useCallback((selectedDate: Date) => {
-    setDate(selectedDate);
+  const onConfirm = useCallback((selectedTime: Date) => {
+    setDatetime(selectedTime);
     setIsVisible(false);
   }, []);
 
@@ -57,7 +56,7 @@ export const App = () => {
     return (
       <Pressable onPress={openModal} style={defaultStylesheet.button}>
         <Text style={defaultStylesheet.buttonText}>
-          {format(date, 'do MMM yyyy')}
+          {format(datetime, 'hh:mm aa')}
         </Text>
       </Pressable>
     );
@@ -69,9 +68,10 @@ export const App = () => {
       <SafeAreaProvider>
         <View style={defaultStylesheet.container}>
           {renderDateTextOrNothing()}
-          <Text style={defaultStylesheet.intro}>Tap on the button above to change the date</Text>
+          <Text style={defaultStylesheet.intro}>Tap on the button above to change the time</Text>
         </View>
-        <DatePickerModal
+        <TimePickerModal
+          initialDatetime={datetime}
           onCancel={closeModal}
           onConfirm={onConfirm}
           visible={isVisible}
