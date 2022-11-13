@@ -44,7 +44,7 @@ export const defaultStylesheet: TimeSelectorSliderDefaultStyleSheet = StyleSheet
   timeSelectorBarIndexes: {
     alignItems: 'flex-end',
     flexDirection: 'row',
-    paddingVertical: 65,
+    paddingTop: 65,
   },
   timeSelectorBarSelectedSnapPoint: {
     backgroundColor: '#4a83e7'
