@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: distribution
-          paths: dist/
+          path: dist/
   # version:
   #   name: Version
   #   needs: build
