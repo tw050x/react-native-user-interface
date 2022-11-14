@@ -7,7 +7,7 @@
     "nx": "nx",
     "semantic-release": "semantic-release",
     "start": "nx serve",
-    "test": "nx test",
+    "test": "nx test"
   },
   "private": true,
   "dependencies": {
