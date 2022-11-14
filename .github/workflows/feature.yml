@@ -17,3 +17,7 @@ jobs:
         with:
           node-version: 18
       - run: yarn install --frozen-lockfile
+      - uses: mansagroup/nrwl-nx-action@v2
+        with:
+          targets: lint
+          all: true
