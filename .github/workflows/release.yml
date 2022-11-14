@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Test all apps and libraries
-        uses: mansagroup/nrwl-nx-action@v2
+        uses: mansagroup/nrwl-nx-action@v3
         with:
           targets: lint, test
           all: true
