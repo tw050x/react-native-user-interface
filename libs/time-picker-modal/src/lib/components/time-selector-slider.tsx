@@ -7,8 +7,8 @@ import format from 'date-fns/format';
 //
 import { useTimePickerModalContext } from '../context';
 import findClosestNumberInNumbersArray from '../helpers/find-closest-number-in-numbers-array';
-import getTimeBoundaryIndexesFromTimeStep from '../helpers/get-time-boundary-indexes-from-time-step';
-import getDatetimeFromSelectedTimeBoundaryIndexAndTimeStep from '../helpers/get-datetime-from-selected-time-boundary-index-and-time-step';
+import getTimeBoundaryIndexesFromTimeStep from '../helpers/get-time-boundary-indexes';
+import getDatetimeFromSelectedTimeBoundaryIndexAndTimeStep from '../helpers/get-datetime';
 import snapPoint from '../helpers/snap-point';
 import { TimeStep } from '../types';
 

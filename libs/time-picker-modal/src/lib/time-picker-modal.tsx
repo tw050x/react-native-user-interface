@@ -8,9 +8,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import TimeSelectorControlsAndValue, { TimeSelectorControlsAndValueProps } from './components/time-selector-controls-and-value';
 import TimeSelectorSlider, { TimeSelectorSliderProps, defaultStylesheet as timeSelectorSliderDefaultStylesheet } from './components/time-selector-slider';
 import { TimePickerModalContext, TimePickerModalContextProvider } from './context';
-import getDatetimeFromSelectedTimeBoundaryIndexAndTimeStep from './helpers/get-datetime-from-selected-time-boundary-index-and-time-step';
-import getSelectedDatetimeBoundaryIndexFromDatetimeAndTimeStep from './helpers/get-selected-datetime-boundary-index-from-datetime-and-time-step';
-import getTimeBoundaryIndexesFromTimeStep from './helpers/get-time-boundary-indexes-from-time-step';
+import getDatetimeFromSelectedTimeBoundaryIndexAndTimeStep from './helpers/get-datetime';
+import getSelectedDatetimeBoundaryIndexFromDatetimeAndTimeStep from './helpers/get-selected-datetime-boundary-index';
+import getTimeBoundaryIndexesFromTimeStep from './helpers/get-time-boundary-indexes';
 import type { TimePickerModalStyleSheet, TimeStep } from './types';
 
 //

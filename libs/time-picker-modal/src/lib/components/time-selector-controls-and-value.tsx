@@ -6,7 +6,7 @@ import format from 'date-fns/format';
 //
 import CircledDash from '../../asset/CircledDash.svg';
 import CircledPlus from '../../asset/CircledPlus.svg';
-import getDatetimeFromSelectedTimeBoundaryIndexAndTimeStep from '../helpers/get-datetime-from-selected-time-boundary-index-and-time-step';
+import getDatetimeFromSelectedTimeBoundaryIndexAndTimeStep from '../helpers/get-datetime';
 import { TimeStep } from '../types';
 
 //
