@@ -16,8 +16,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: yarn install --frozen-lockfile
-      - uses: mansagroup/nrwl-nx-action@v2
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Lint all apps and libraries
+        uses: mansagroup/nrwl-nx-action@v2
         with:
-          targets: lint
+          targets: lint, test
           all: true
