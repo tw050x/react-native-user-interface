@@ -1,4 +1,4 @@
-name: Create a distribute a release
+name: Prepare a release
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: macos-20.15
+    runs-on: macos-10.15
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
