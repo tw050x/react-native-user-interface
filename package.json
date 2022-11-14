@@ -3,10 +3,11 @@
   "version": "0.0.0-development",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve",
     "build": "nx build",
+    "nx": "nx",
+    "semantic-release": "semantic-release",
+    "start": "nx serve",
     "test": "nx test",
-    "semantic-release": "semantic-release"
   },
   "private": true,
   "dependencies": {
