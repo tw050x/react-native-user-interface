@@ -1,5 +1,7 @@
 # @react-native-user-interface/time-picker-modal
 
+> :warning: This library is not ready for use in production environments. Use at your own risk.
+
 The `<TimePickerModal />` allows gesture based input of time values onto a `Date` object. The provided date object will only have the hours and minute values changed, you can therefore use the same date object with our `<DatePickerModal />`.
 
 ### Peer Dependencies
