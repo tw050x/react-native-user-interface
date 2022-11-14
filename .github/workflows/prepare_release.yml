@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build
+  prepare:
+    name: Prepare
     runs-on: macos-10.15
     steps:
       - name: Checkout code
@@ -18,5 +18,28 @@ jobs:
           node-version: 18
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+      - name: Test all apps and libraries
+        uses: mansagroup/nrwl-nx-action@v2
+        with:
+          targets: lint, test
+          all: true
+  build:
+    name: Build
+    needs: prepare
+    runs-on: macos-10.15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Test all apps and libraries
+        uses: mansagroup/nrwl-nx-action@v2
+        with:
+          targets: build
+          all: true
     
   
