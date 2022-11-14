@@ -197,7 +197,7 @@ const TimePickerModalContent: FunctionComponent<TimePickerModalContentProps> = (
 
       timeSelectorPositionXSharedValue.value = timeSelectorPositionXSharedValue.value + timeBarWidthAndMargins;
     },
-    [timeBarWidthAndMargins, timeBoundaryIndexesLength, timeSelectorPositionXSharedValue, timeSelectorWidthSharedValue]
+    [timeBarWidthAndMargins, timeSelectorPositionXSharedValue, timeSelectorWidthSharedValue]
   );
 
   const onCancelPress = useCallback(
