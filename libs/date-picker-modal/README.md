@@ -15,7 +15,7 @@ To use this component you must install the following peer dependencies:
 * [react-native-reanimated](https://www.npmjs.com/package/react-native-reanimated)
 * [react-native-safe-area-context](https://www.npmjs.com/package/react-native-safe-area-context)
 
-To install these with `npm` run:
+To install with `npm` run:
 
 ```
 npm install date-fns react react-native react-native-gesture-handler react-native-reanimated react-native-safe-area-context
