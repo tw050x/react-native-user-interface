@@ -1,4 +1,4 @@
-name: Prepare a release
+name: Create a release
 
 on:
   push:
@@ -36,10 +36,28 @@ jobs:
           node-version: 18
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Test all apps and libraries
+      - name: Build all libraries
         uses: mansagroup/nrwl-nx-action@v2
         with:
           targets: build
-          all: true
+          projects: date-picker-modal,time-picker-modal
+      - name: Store build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: distribution
+          paths: dist/
+  # version:
+  #   name: Version
+  #   needs: build
+  #   runs-on: macos-10.15
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18
+  #     - name: Install dependencies
+  #       run: yarn install --frozen-lockfile
     
   
