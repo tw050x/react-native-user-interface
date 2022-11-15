@@ -47,6 +47,8 @@ jobs:
           name: distribution
           path: dist/
   version:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     name: Version
     needs: build
     runs-on: macos-10.15
