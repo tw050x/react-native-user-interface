@@ -103,3 +103,6 @@ buck-out/
 
 apps/react-native-user-interface-e2e/artifacts
 apps/date-picker-modal-e2e/artifacts
+
+# 
+.env
