@@ -4,37 +4,33 @@ on:
   push:
     branches:
       - feature/*
-    
+
 jobs:
   lint:
     name: Lint
-    runs-on: macos-10.15
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node.js 
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
         with:
           node-version: 18
+          cache: yarn
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Lint all apps and libraries
-        uses: mansagroup/nrwl-nx-action@v2
-        with:
-          targets: lint
-          all: true
+        run: yarn nx run-many --target=lint --all
   test:
-    name: Lint
-    runs-on: macos-10.15
+    name: Test
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node.js 
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
         with:
           node-version: 18
+          cache: yarn
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Test all apps and libraries
-        uses: mansagroup/nrwl-nx-action@v2
-        with:
-          targets: test
-          all: true
+        run: yarn nx run-many --target=test --all
