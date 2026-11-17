@@ -104,7 +104,7 @@ buck-out/
 apps/react-native-user-interface-e2e/artifacts
 apps/date-picker-modal-e2e/artifacts
 
-# 
+#
 .env
 .nx/cache
 .nx/workspace-data
@@ -115,3 +115,4 @@ apps/date-picker-modal-e2e/artifacts
 .nx/polygraph
 .nx/self-healing
 .nx/migrate-runs
+apps/react-native-user-interface-e2e/artifacts

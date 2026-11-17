@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
 import App from './app/App';
 
-AppRegistry.registerComponent('RNUserInterface', () => App);
+AppRegistry.registerComponent('ReactNativeUserInterface', () => App);

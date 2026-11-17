@@ -31,10 +31,10 @@ const defaultStylesheet = StyleSheet.create({
 });
 
 /**
- * 
+ *
  * @returns {JSX.Element}
  */
-export const App = () => { 
+export const App = () => {
   const [datetime, setDatetime] = useState(() => new Date());
   const [isVisible, setIsVisible] = useState(false);
 
@@ -54,8 +54,8 @@ export const App = () => {
   const renderDateTextOrNothing = () => {
 
     return (
-      <Pressable onPress={openModal} style={defaultStylesheet.button}>
-        <Text style={defaultStylesheet.buttonText}>
+      <Pressable onPress={openModal} style={defaultStylesheet.button} testID="time-button">
+        <Text style={defaultStylesheet.buttonText} testID="time-button-text">
           {format(datetime, 'hh:mm aa')}
         </Text>
       </Pressable>
@@ -68,7 +68,7 @@ export const App = () => {
       <SafeAreaProvider>
         <View style={defaultStylesheet.container}>
           {renderDateTextOrNothing()}
-          <Text style={defaultStylesheet.intro}>Tap on the button above to change the time</Text>
+          <Text style={defaultStylesheet.intro} testID="intro">Tap on the button above to change the time</Text>
         </View>
         <TimePickerModal
           initialDatetime={datetime}

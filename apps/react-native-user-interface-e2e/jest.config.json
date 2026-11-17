@@ -1,17 +1,22 @@
 {
   "preset": "../../jest.preset",
-  "testEnvironment": "./environment",
-  "testRunner": "jest-circus/runner",
-  "testTimeout": 120000,
-  "reporters": ["detox/runners/jest/streamlineReporter"],
-  "setupFilesAfterEnv": ["<rootDir>/test-setup.ts"],
   "rootDir": ".",
   "testMatch": [
     "<rootDir>/src/**/*.test.ts?(x)",
     "<rootDir>/src/**/*.spec.ts?(x)"
   ],
-  "reporter": ["detox/runners/jest/reporter"],
+  "testTimeout": 120000,
+  "maxWorkers": 1,
   "globalSetup": "detox/runners/jest/globalSetup",
   "globalTeardown": "detox/runners/jest/globalTeardown",
-  "verbose": true
+  "reporters": ["detox/runners/jest/reporter"],
+  "testEnvironment": "detox/runners/jest/testEnvironment",
+  "verbose": true,
+  "setupFilesAfterEnv": ["<rootDir>/test-setup.ts"],
+  "transform": {
+    "^.+\\.(ts|js|html)$": [
+      "ts-jest",
+      { "tsconfig": "<rootDir>/tsconfig.e2e.json" }
+    ]
+  }
 }

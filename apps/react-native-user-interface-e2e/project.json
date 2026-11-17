@@ -4,53 +4,47 @@
   "sourceRoot": "apps/react-native-user-interface-e2e/src",
   "projectType": "application",
   "tags": [],
-  "implicitDependencies": ["react-native-user-interface"],
+  "implicitDependencies": [
+    "react-native-user-interface"
+  ],
   "targets": {
     "build-ios": {
-      "options": {
-        "args": ["--args=\"-c ios.sim.debug\""]
-      },
+      "command": "nx run react-native-user-interface-e2e:e2e-build -- --configuration ios.sim.debug",
       "configurations": {
         "production": {
-          "args": ["--args=\"-c ios.sim.release\""]
+          "command": "nx run react-native-user-interface-e2e:e2e-build -- --configuration ios.sim.release"
         }
-      },
-      "command": "nx run react-native-user-interface-e2e:e2e-build"
+      }
     },
     "test-ios": {
-      "options": {
-        "args": ["--args=\"-c ios.sim.debug\""]
-      },
+      "command": "nx run react-native-user-interface-e2e:e2e -- --configuration ios.sim.debug",
       "configurations": {
         "production": {
-          "args": ["--args=\"-c ios.sim.release\""]
+          "command": "nx run react-native-user-interface-e2e:e2e -- --configuration ios.sim.release"
         }
       },
-      "dependsOn": ["react-native-user-interface-e2e:build-ios"],
-      "command": "nx run react-native-user-interface-e2e:e2e"
+      "dependsOn": [
+        "build-ios"
+      ]
     },
     "build-android": {
-      "options": {
-        "args": ["--args=\"-c android.emu.debug\""]
-      },
+      "command": "nx run react-native-user-interface-e2e:e2e-build -- --configuration android.emu.debug",
       "configurations": {
         "production": {
-          "args": ["--args=\"-c android.emu.release\""]
+          "command": "nx run react-native-user-interface-e2e:e2e-build -- --configuration android.emu.release"
         }
-      },
-      "command": "nx run react-native-user-interface-e2e:e2e-build"
+      }
     },
     "test-android": {
-      "options": {
-        "args": ["--args=\"-c android.emu.debug\""]
-      },
+      "command": "nx run react-native-user-interface-e2e:e2e -- --configuration android.emu.debug",
       "configurations": {
         "production": {
-          "args": ["--args=\"-c android.emu.release\""]
+          "command": "nx run react-native-user-interface-e2e:e2e -- --configuration android.emu.release"
         }
       },
-      "dependsOn": ["react-native-user-interface-e2e:build-android"],
-      "command": "nx run react-native-user-interface-e2e:e2e"
+      "dependsOn": [
+        "build-android"
+      ]
     }
   }
 }

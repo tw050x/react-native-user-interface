@@ -3,17 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@testing-library/react-native": "*",
+    "@react-native/metro-config": "*",
     "react": "*",
     "react-native": "*",
-    "react-native-config": "*",
+    "react-native-svg": "*",
+    "metro-config": "*",
+    "@nx/eslint-plugin": "*",
+    "react-native-svg-transformer": "*",
     "react-native-gesture-handler": "*",
     "react-native-reanimated": "*",
     "react-native-safe-area-context": "*",
-    "react-native-svg": "*",
-    "@react-native-async-storage/async-storage": "*",
-    "metro-config": "*",
-    "@testing-library/react": "*",
-    "date-fns": "*"
-  }
+    "date-fns": "*",
+    "react-native-worklets": "*"
+  },
+  "devDependencies": {}
 }

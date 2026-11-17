@@ -1,13 +1,14 @@
 import { device, element, by, expect } from 'detox';
 
-describe('RnuserInterface', () => {
+describe('ReactNativeUserInterface', () => {
   beforeEach(async () => {
     await device.reloadReactNative();
   });
 
-  it('should display welcome message', async () => {
-    await expect(element(by.id('heading'))).toHaveText(
-      'Welcome RnuserInterface 👋'
+  it('should display the time button and intro text', async () => {
+    await expect(element(by.id('time-button'))).toBeVisible();
+    await expect(element(by.id('intro'))).toHaveText(
+      'Tap on the button above to change the time'
     );
   });
 });
