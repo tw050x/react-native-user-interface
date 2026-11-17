@@ -1,6 +1,17 @@
 pluginManagement { includeBuild("../../../node_modules/@react-native/gradle-plugin") }
 plugins { id("com.facebook.react.settings") }
-extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
+extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
+    // In this monorepo the React Native CLI is installed at the workspace root,
+    // which `npx @react-native-community/cli` does not find from the app folder
+    // (it tries to download it instead). Run the installed CLI directly, and
+    // watch the root yarn.lock for dependency changes.
+    def workspaceRoot = new File(settingsDir, "../../..").canonicalFile
+    ex.autolinkLibrariesFromCommand(
+        ["node", new File(workspaceRoot, "node_modules/@react-native-community/cli/build/bin.js").path, "config"],
+        new File(settingsDir, "..").canonicalFile,
+        layout.rootDirectory.files("../../../yarn.lock", "../package.json")
+    )
+}
 rootProject.name = 'ReactNativeUserInterface'
 include ':app'
 includeBuild('../../../node_modules/@react-native/gradle-plugin')

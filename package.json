@@ -17,8 +17,8 @@
     "@react-native-community/cli-platform-ios": "~20.1.0",
     "core-js": "^3.6.5",
     "date-fns": "^2.29.3",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
     "react-native": "~0.84.1",
     "regenerator-runtime": "0.13.7",
     "tslib": "^2.3.0"

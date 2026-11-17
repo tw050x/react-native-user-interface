@@ -1,11 +1,11 @@
 buildscript {
     ext {
-        buildToolsVersion = "35.0.0"
+        buildToolsVersion = "36.0.0"
         minSdkVersion = 24
-        compileSdkVersion = 35
-        targetSdkVersion = 35
+        compileSdkVersion = 36
+        targetSdkVersion = 36
         ndkVersion = "27.1.12297006"
-        kotlinVersion = "2.0.21"
+        kotlinVersion = "2.1.20"
     }
     repositories {
         google()
@@ -19,3 +19,12 @@ buildscript {
 }
 
 apply plugin: "com.facebook.react.rootproject"
+
+allprojects {
+    repositories {
+        // Detox's Android library ships inside the detox npm package.
+        maven {
+            url("$rootDir/../../../node_modules/detox/Detox-android")
+        }
+    }
+}

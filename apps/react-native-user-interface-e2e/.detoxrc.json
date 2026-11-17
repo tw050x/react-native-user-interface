@@ -11,12 +11,12 @@
   "apps": {
     "ios.debug": {
       "type": "ios.app",
-      "build": "cd ../../apps/react-native-user-interface/ios && xcodebuild -workspace ReactNativeUserInterface.xcworkspace -scheme ReactNativeUserInterface -configuration Debug -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -derivedDataPath ./build -quiet",
+      "build": "cd ../../apps/react-native-user-interface/ios && xcodebuild -workspace ReactNativeUserInterface.xcworkspace -scheme ReactNativeUserInterface -configuration Debug -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath ./build -quiet",
       "binaryPath": "../../apps/react-native-user-interface/ios/build/Build/Products/Debug-iphonesimulator/ReactNativeUserInterface.app"
     },
     "ios.release": {
       "type": "ios.app",
-      "build": "cd ../../apps/react-native-user-interface/ios && xcodebuild -workspace ReactNativeUserInterface.xcworkspace -scheme ReactNativeUserInterface -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -derivedDataPath ./build -quiet",
+      "build": "cd ../../apps/react-native-user-interface/ios && xcodebuild -workspace ReactNativeUserInterface.xcworkspace -scheme ReactNativeUserInterface -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath ./build -quiet",
       "binaryPath": "../../apps/react-native-user-interface/ios/build/Build/Products/Release-iphonesimulator/ReactNativeUserInterface.app"
     },
 
@@ -35,7 +35,7 @@
     "simulator": {
       "type": "ios.simulator",
       "device": {
-        "type": "iPhone 17 Pro"
+        "type": "iPhone 17"
       }
     },
     "emulator": {

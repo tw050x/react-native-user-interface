@@ -14,7 +14,8 @@
     "react-native-reanimated": "*",
     "react-native-safe-area-context": "*",
     "date-fns": "*",
-    "react-native-worklets": "*"
+    "react-native-worklets": "*",
+    "@testing-library/react": "*"
   },
   "devDependencies": {}
 }

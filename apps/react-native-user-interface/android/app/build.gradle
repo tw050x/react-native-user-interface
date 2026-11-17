@@ -45,7 +45,7 @@ react {
 
     /* Hermes Commands */
     //   The hermes compiler command to run. By default it is 'hermesc'
-    hermesCommand = "../../../../node_modules/react-native/sdks/hermesc/%OS-BIN%/hermesc"
+    hermesCommand = "$rootDir/../../../node_modules/hermes-compiler/hermesc/%OS-BIN%/hermesc"
     //
     //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
     // hermesFlags = ["-O", "-output-source-map"]
@@ -84,6 +84,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        // Detox: https://wix.github.io/Detox/docs/introduction/project-setup
+        testBuildType System.getProperty('testBuildType', 'debug')
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     signingConfigs {
         debug {
@@ -103,6 +106,8 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            // Detox uses reflection, so keep its classes when minifying.
+            proguardFile "${rootProject.projectDir}/../../../node_modules/detox/android/detox/proguard-rules-app.pro"
         }
     }
 }
@@ -110,6 +115,8 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+
+    androidTestImplementation('com.wix:detox:+')
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
