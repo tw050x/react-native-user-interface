@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback, useRef } from 'react';
 import { StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 
 //
 import CircledDash from '../../asset/CircledDash.svg';

@@ -1,21 +1,18 @@
-import React, { FunctionComponent, useCallback, useMemo, useRef, useState } from 'react';
+import React, { FunctionComponent, useCallback, useMemo, useState } from 'react';
 import { LayoutChangeEvent, Modal, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
-import { Gesture, GestureDetector, GestureStateChangeEvent, TapGestureHandlerEventPayload, TouchableOpacity, TouchableWithoutFeedback, gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { runOnJS } from 'react-native-reanimated';
+import { Gesture, GestureDetector, GestureHandlerRootView, GestureStateChangeEvent, TapGestureHandlerEventPayload, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import format from 'date-fns/format';
-import isSameDay from 'date-fns/isSameDay';
-import startOfDay from 'date-fns/startOfDay';
-import subMonths from 'date-fns/subMonths';
-import addMonths from 'date-fns/addMonths';
+import { addMonths, format, isSameDay, startOfDay, subMonths } from 'date-fns';
 
 // assets
 import ChevronLeft from '../asset/ChevronLeft.svg';
 import ChevronRight from '../asset/ChevronRight.svg';
 
 // hooks
-import useCalendarDataForDate from './hooks/use-calendar-data-for-date';
 import useCurrentDatetime from './hooks/use-current-datetime';
+
+// helpers
+import getCalendarWeeksForDate, { CalendarDay, CalendarWeek } from './helpers/get-calendar-weeks-for-date';
 
 //
 export type DatePickerModalStyleSheet = {
@@ -155,6 +152,9 @@ const defaultStylesheet = StyleSheet.create({
     flexDirection: 'row',
   },
   dateSelectorWeeks: {},
+  gestureHandlerRoot: {
+    flex: 1,
+  },
   heading: {
     fontFamily: 'Arial',
     fontSize: 30,
@@ -174,15 +174,6 @@ const defaultStylesheet = StyleSheet.create({
     color: 'red',
   },
 });
-
-//
-type CalendarWeekday = {
-  date: Date,
-  isCurrentMonth: boolean
-  isNextMonth: boolean
-  isPreviousMonth: boolean
-  monthDay: number
-}
 
 //
 type DatePickerModalProps = {
@@ -221,8 +212,6 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
 
   const [dateSelectorColumnWidth, setDateSelectorColumnWidth] = useState(0);
 
-  const targetDate = useRef(initialDate || currentDatetime);
-
   const onCancelPress = useCallback(() => {
     if (onCancel) onCancel()
   }, [onCancel]);
@@ -233,8 +222,16 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
       return
     }
 
-    if (onConfirm) onConfirm(selectedDate)
-  }, [onConfirm, selectedDate]);
+    if (onConfirm) {
+      // Only the year, month and day change: keep the time of day from
+      // initialDate so the same Date can be shared with <TimePickerModal />.
+      const confirmedDate = new Date(selectedDate)
+      if (initialDate !== undefined) {
+        confirmedDate.setHours(initialDate.getHours(), initialDate.getMinutes(), initialDate.getSeconds(), initialDate.getMilliseconds())
+      }
+      onConfirm(confirmedDate)
+    }
+  }, [initialDate, onConfirm, selectedDate]);
 
   const onContainerPress = useCallback(() => {
     if (onCancel) onCancel()
@@ -266,71 +263,9 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
     setFocusedDate(addMonths(focusedDate, 1));
   }, [focusedDate]);
 
-  const calendarDataForFocusedDate = useCalendarDataForDate(focusedDate);
-
   const dateSelectorWeeks = useMemo(
-    () => {
-      const { month, monthFirstDayWeekday, monthFirstDayWeekdayIndex, monthIndex, monthLastDay, previousMonthLastMonthDay, year } = calendarDataForFocusedDate;
-
-      if (month === undefined) return
-      if (monthFirstDayWeekday === undefined) return
-      if (monthFirstDayWeekdayIndex === undefined) return
-      if (monthIndex === undefined) return
-      if (monthLastDay === undefined) return
-      if (previousMonthLastMonthDay === undefined) return
-      if (year === undefined) return
-
-      const dateSelectorWeeksData: Array<{ days: Array<CalendarWeekday> }> = [{ days: [] }]
-      let calendarWeekIndex = 0
-
-      // previous month
-      for (let iteration = previousMonthLastMonthDay - (monthFirstDayWeekdayIndex || 7); iteration < previousMonthLastMonthDay; iteration++) {
-        dateSelectorWeeksData[calendarWeekIndex].days.push({
-          date: new Date(year, monthIndex - 1, iteration + 1),
-          isCurrentMonth: false,
-          isNextMonth: false,
-          isPreviousMonth: true,
-          monthDay: iteration + 1,
-        })
-      }
-
-      // current month
-      for (let iteration = 0; iteration < monthLastDay; iteration++) {
-        if (dateSelectorWeeksData[calendarWeekIndex].days.length === 7) {
-          calendarWeekIndex = calendarWeekIndex + 1
-          dateSelectorWeeksData[calendarWeekIndex] = { days: [] }
-        }
-
-        dateSelectorWeeksData[calendarWeekIndex].days.push({
-          date: new Date(year, monthIndex, iteration + 1),
-          isCurrentMonth: true,
-          isNextMonth: false,
-          isPreviousMonth: false,
-          monthDay: iteration + 1,
-        })
-      }
-
-      const nextMonthDayCount = (7 - dateSelectorWeeksData[calendarWeekIndex].days.length) || 7
-
-      for (let iteration = 0; iteration < nextMonthDayCount; iteration++) {
-        if (dateSelectorWeeksData[calendarWeekIndex].days.length === 7) {
-          calendarWeekIndex = calendarWeekIndex + 1
-          dateSelectorWeeksData[calendarWeekIndex] = { days: [] }
-        }
-
-        if (dateSelectorWeeksData[calendarWeekIndex] === undefined) dateSelectorWeeksData[calendarWeekIndex] = { days: [] }
-        dateSelectorWeeksData[calendarWeekIndex].days.push({
-          date: new Date(year, monthIndex + 1, iteration + 1),
-          isCurrentMonth: false,
-          isNextMonth: true,
-          isPreviousMonth: false,
-          monthDay: iteration + 1,
-        })
-      }
-
-      return dateSelectorWeeksData
-    },
-    [calendarDataForFocusedDate]
+    () => getCalendarWeeksForDate(focusedDate),
+    [focusedDate]
   );
 
   const renderDateSelectorControls = () => {
@@ -379,7 +314,9 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
     }
 
     return (
-      <View style={defaultStylesheet.dateSelectorWeekdays}>
+      // Measure the weekday row, not the padded container: the row spans the
+      // inner width that the seven columns must fill.
+      <View onLayout={onDateSelectorWeeksLayout} style={defaultStylesheet.dateSelectorWeekdays}>
         {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(weekdayMapper)}
       </View>
     );
@@ -387,7 +324,7 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
 
   const renderDateSelectorWeeks = () => {
 
-    const dateSelectorWeekMapper = ({ date: dailyDate, isCurrentMonth, monthDay }: CalendarWeekday) => {
+    const dateSelectorWeekMapper = ({ date: dailyDate, isCurrentMonth, monthDay }: CalendarDay) => {
 
       const normalisedCurrentDate = startOfDay(currentDatetime)
 
@@ -425,7 +362,9 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
 
       return (
         <View key={dailyDate.toString()} style={[defaultStylesheet.dateSelectorDayContainer, stylesheet.dateSelectorDayContainer, containerStyle]}>
-          <View style={[defaultStylesheet.dateSelectorDayContent, stylesheet.dateSelectorDayContent, viewStyle]}>
+          {/* collapsable={false}: on Android a view with no background is flattened away, and the
+              rounded corners are lost when a selected background is added later. */}
+          <View collapsable={false} style={[defaultStylesheet.dateSelectorDayContent, stylesheet.dateSelectorDayContent, viewStyle]}>
             <Text style={[defaultStylesheet.dateSelectorDayText, stylesheet.dateSelectorDayText, textStyle]}>
               {monthDay}
             </Text>
@@ -434,7 +373,7 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
       )
     };
 
-    const dateSelectorWeeksMapper = ({ days }: { days: Array<CalendarWeekday> }, index: number) => {
+    const dateSelectorWeeksMapper = ({ days }: CalendarWeek, index: number) => {
 
       return (
         <View key={index} style={[defaultStylesheet.dateSelectorWeek, stylesheet.dateSelectorWeek]}>
@@ -445,75 +384,36 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
 
     return (
       <GestureDetector gesture={dayTapGesture}>
-        <View style={[defaultStylesheet.dateSelectorWeeks, stylesheet.dateSelectorWeeks]}>
-          {dateSelectorWeeks?.map(dateSelectorWeeksMapper)}
+        <View style={[defaultStylesheet.dateSelectorWeeks, stylesheet.dateSelectorWeeks]} testID="date-picker-calendar">
+          {dateSelectorWeeks.map(dateSelectorWeeksMapper)}
         </View>
       </GestureDetector>
     );
   };
 
-  const onDayTapGestureStart = (event: GestureStateChangeEvent<TapGestureHandlerEventPayload>) => {
-    const columnIndex = Math.floor(event.x / dateSelectorColumnWidth)
-    const rowIndex = Math.floor(event.y / dateSelectorColumnWidth)
+  // Work out which day was tapped from the tap position in the grid. The
+  // gesture runs on the JS thread so it can update React state directly.
+  const onDayTapGestureEnd = (event: GestureStateChangeEvent<TapGestureHandlerEventPayload>) => {
+    if (dateSelectorColumnWidth === 0) return;
 
-    if (columnIndex < 0) return
-    if (rowIndex < 0) return
+    const columnIndex = Math.min(Math.floor(event.x / dateSelectorColumnWidth), 6);
+    const rowIndex = Math.min(Math.floor(event.y / dateSelectorColumnWidth), dateSelectorWeeks.length - 1);
 
-    const tappedDate = dateSelectorWeeks?.[rowIndex > dateSelectorWeeks.length - 1 ? dateSelectorWeeks.length - 1 : rowIndex].days?.[columnIndex > 6 ? 6 : columnIndex].date
-    if (tappedDate !== undefined) {
+    if (columnIndex < 0 || rowIndex < 0) return;
 
-      const normalisedFocusedDate = new Date(tappedDate)
+    const tappedDate = dateSelectorWeeks[rowIndex]?.days[columnIndex]?.date;
+    if (tappedDate === undefined) return;
 
-      normalisedFocusedDate.setHours(0)
-      normalisedFocusedDate.setMinutes(0)
-      normalisedFocusedDate.setSeconds(0)
-      normalisedFocusedDate.setMilliseconds(0)
+    setSelectedDate(startOfDay(tappedDate));
+  };
 
-      targetDate.current = normalisedFocusedDate
-    }
-  }
-
-  const onDayTapGestureEnd = () => {
-    if (targetDate.current === undefined) return
-    runOnJS(setSelectedDate)(targetDate.current)
-  }
-
-  const dayTapGesture = Gesture.Tap().
-    onStart(onDayTapGestureStart).
-    onEnd(onDayTapGestureEnd)
+  const dayTapGesture = Gesture.Tap()
+    .runOnJS(true)
+    .onEnd(onDayTapGestureEnd);
 
   const contentStyles = {
     paddingBottom: bottom + Number(stylesheet?.content?.paddingBottom || 0),
   };
-
-  const Component = gestureHandlerRootHOC(() => (
-    <TouchableWithoutFeedback
-      containerStyle={[defaultStylesheet.container, stylesheet.container]}
-      onPress={onContainerPress}
-      style={[defaultStylesheet.container, stylesheet.container]}
-    >
-      <TouchableWithoutFeedback
-        onPress={onContentPress}
-        style={[defaultStylesheet.content, stylesheet.content, contentStyles]}
-      >
-        <Text style={[defaultStylesheet.heading, stylesheet.heading]}>Select a Date</Text>
-        <View onLayout={onDateSelectorWeeksLayout} style={[defaultStylesheet.dateSelector, stylesheet.dateSelector]}>
-          {renderDateSelectorControls()}
-          {renderDateSelectorWeekdays()}
-          {renderDateSelectorWeeks()}
-        </View>
-        <View style={[defaultStylesheet.selectedDateErrorContainer, stylesheet.selectedDateErrorContainer]}>
-          {selectedDateError && <Text style={[defaultStylesheet.selectedDateErrorText, stylesheet.selectedDateErrorText]}>You need to select a date</Text>}
-        </View>
-        <TouchableOpacity onPress={onConfirmPress} style={[defaultStylesheet.confirmButton, stylesheet.confirmButton]}>
-          <Text style={[defaultStylesheet.confirmButtonText, stylesheet.confirmButtonText]}>Confirm</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onCancelPress} style={[defaultStylesheet.cancelButton, stylesheet.cancelButton]}>
-          <Text style={[defaultStylesheet.cancelButtonText, stylesheet.cancelButtonText]}>Cancel</Text>
-        </TouchableOpacity>
-      </TouchableWithoutFeedback>
-    </TouchableWithoutFeedback>
-  ))
 
   return (
     <Modal
@@ -522,7 +422,34 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
       transparent={transparent}
       visible={visible}
     >
-      <Component />
+      <GestureHandlerRootView style={defaultStylesheet.gestureHandlerRoot}>
+        <TouchableWithoutFeedback
+          containerStyle={[defaultStylesheet.container, stylesheet.container]}
+          onPress={onContainerPress}
+          style={[defaultStylesheet.container, stylesheet.container]}
+        >
+          <TouchableWithoutFeedback
+            onPress={onContentPress}
+            style={[defaultStylesheet.content, stylesheet.content, contentStyles]}
+          >
+            <Text style={[defaultStylesheet.heading, stylesheet.heading]}>Select a Date</Text>
+            <View style={[defaultStylesheet.dateSelector, stylesheet.dateSelector]}>
+              {renderDateSelectorControls()}
+              {renderDateSelectorWeekdays()}
+              {renderDateSelectorWeeks()}
+            </View>
+            <View style={[defaultStylesheet.selectedDateErrorContainer, stylesheet.selectedDateErrorContainer]}>
+              {selectedDateError && <Text style={[defaultStylesheet.selectedDateErrorText, stylesheet.selectedDateErrorText]}>You need to select a date</Text>}
+            </View>
+            <TouchableOpacity onPress={onConfirmPress} style={[defaultStylesheet.confirmButton, stylesheet.confirmButton]}>
+              <Text style={[defaultStylesheet.confirmButtonText, stylesheet.confirmButtonText]}>Confirm</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onCancelPress} style={[defaultStylesheet.cancelButton, stylesheet.cancelButton]}>
+              <Text style={[defaultStylesheet.cancelButtonText, stylesheet.cancelButtonText]}>Cancel</Text>
+            </TouchableOpacity>
+          </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </GestureHandlerRootView>
     </Modal>
   );
 };

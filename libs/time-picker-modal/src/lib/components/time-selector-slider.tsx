@@ -2,7 +2,7 @@ import React, { FunctionComponent, useCallback, useMemo } from 'react';
 import { LayoutChangeEvent, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import { Gesture, GestureDetector, GestureUpdateEvent, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated';
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 
 //
 import { useTimePickerModalContext } from '../context';
@@ -115,10 +115,10 @@ const TimeSelectorSlider: FunctionComponent<TimeSelectorSliderProps> = ({ select
     timeSelectorPositionXSharedValue.value = withTiming(timeSelectorTargetXSharedValue.value);
   };
 
-  const timePanGesture = Gesture.Pan().
-    onStart(onDayPanGestureStart).
-    onUpdate(onDayPanGestureUpdate).
-    onEnd(onDayPanGestureEnd);
+  const timePanGesture = Gesture.Pan()
+    .onStart(onDayPanGestureStart)
+    .onUpdate(onDayPanGestureUpdate)
+    .onEnd(onDayPanGestureEnd);
 
   const renderTimeSelectorBar = (_: number, index: number) => {
     const isHour = (index % 12) === 0;
@@ -166,7 +166,7 @@ const TimeSelectorSlider: FunctionComponent<TimeSelectorSliderProps> = ({ select
 
   return (
     <GestureDetector gesture={timePanGesture}>
-      <View onLayout={onTimeSelectorBarContainerLayout} style={[defaultStylesheet.timeSelectorBarContainer, stylesheet?.timeSelectorBarContainer]}>
+      <View onLayout={onTimeSelectorBarContainerLayout} style={[defaultStylesheet.timeSelectorBarContainer, stylesheet?.timeSelectorBarContainer]} testID="time-picker-slider">
         <Animated.View style={[defaultStylesheet.timeSelectorBarIndexes, stylesheet?.timeSelectorBarIndexes, timeSelectorAnimatedStyle]}>
           {timeBoundaryIndexes.map(renderTimeSelectorBar)}
         </Animated.View>

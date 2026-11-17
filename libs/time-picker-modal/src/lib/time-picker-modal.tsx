@@ -216,12 +216,13 @@ const TimePickerModalContent: FunctionComponent<TimePickerModalContentProps> = (
 
       if (onConfirm) onConfirm(
         getDatetimeFromSelectedTimeBoundaryIndexAndTimeStep(
-          selectedTimeBoundaryIndex, 
-          timeStep
+          selectedTimeBoundaryIndex,
+          timeStep,
+          initialDatetime
         )
       );
-    }, 
-    [onConfirm, selectedTimeBoundaryIndex, timeStep]
+    },
+    [initialDatetime, onConfirm, selectedTimeBoundaryIndex, timeStep]
   );
 
   const onContainerPress = useCallback(
