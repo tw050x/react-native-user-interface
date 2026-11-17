@@ -1,5 +1,5 @@
 /* eslint-disable */
-export default {
+module.exports = {
   displayName: 'time-picker-modal',
   preset: '../../jest.preset.js',
   transform: {

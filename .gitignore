@@ -110,3 +110,7 @@ apps/date-picker-modal-e2e/artifacts
 .nx/workspace-data
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+
+.claude/worktrees
+.nx/polygraph
+.nx/self-healing
