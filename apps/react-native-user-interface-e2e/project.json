@@ -7,56 +7,50 @@
   "implicitDependencies": ["react-native-user-interface"],
   "targets": {
     "build-ios": {
-      "executor": "@nx/detox:build",
       "options": {
-        "detoxConfiguration": "ios.sim.debug"
+        "args": ["--args=\"-c ios.sim.debug\""]
       },
       "configurations": {
         "production": {
-          "detoxConfiguration": "ios.sim.release"
+          "args": ["--args=\"-c ios.sim.release\""]
         }
-      }
+      },
+      "command": "nx run react-native-user-interface-e2e:e2e-build"
     },
     "test-ios": {
-      "executor": "@nx/detox:test",
       "options": {
-        "detoxConfiguration": "ios.sim.debug",
-        "buildTarget": "react-native-user-interface-e2e:build-ios"
+        "args": ["--args=\"-c ios.sim.debug\""]
       },
       "configurations": {
         "production": {
-          "detoxConfiguration": "ios.sim.release",
-          "buildTarget": "react-native-user-interface-e2e:build-ios:production"
+          "args": ["--args=\"-c ios.sim.release\""]
         }
-      }
+      },
+      "dependsOn": ["react-native-user-interface-e2e:build-ios"],
+      "command": "nx run react-native-user-interface-e2e:e2e"
     },
     "build-android": {
-      "executor": "@nx/detox:build",
       "options": {
-        "detoxConfiguration": "android.emu.debug"
+        "args": ["--args=\"-c android.emu.debug\""]
       },
       "configurations": {
         "production": {
-          "detoxConfiguration": "android.emu.release"
+          "args": ["--args=\"-c android.emu.release\""]
         }
-      }
+      },
+      "command": "nx run react-native-user-interface-e2e:e2e-build"
     },
     "test-android": {
-      "executor": "@nx/detox:test",
       "options": {
-        "detoxConfiguration": "android.emu.debug",
-        "buildTarget": "react-native-user-interface-e2e:build-ios"
+        "args": ["--args=\"-c android.emu.debug\""]
       },
       "configurations": {
         "production": {
-          "detoxConfiguration": "android.emu.release",
-          "buildTarget": "react-native-user-interface-e2e:build-ios:production"
+          "args": ["--args=\"-c android.emu.release\""]
         }
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      },
+      "dependsOn": ["react-native-user-interface-e2e:build-android"],
+      "command": "nx run react-native-user-interface-e2e:e2e"
     }
   }
 }

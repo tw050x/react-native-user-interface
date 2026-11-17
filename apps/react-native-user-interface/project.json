@@ -61,16 +61,22 @@
       "executor": "@nx/react-native:sync-deps",
       "options": {}
     },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/react-native-user-interface/jest.config.ts"
-      }
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/jest.preset.js",
+        {
+          "externalDependencies": [
+            "jest",
+            "react-native",
+            "@nx/jest",
+            "@nx/react-native",
+            "babel-jest"
+          ]
+        }
+      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
     },
     "upgrade": {
       "executor": "@nx/react-native:upgrade",
