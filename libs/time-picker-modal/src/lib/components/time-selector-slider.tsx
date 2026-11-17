@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback, useMemo } from 'react';
 import { LayoutChangeEvent, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import { Gesture, GestureDetector, GestureUpdateEvent, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
-import Animated, { runOnUI, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated';
 import format from 'date-fns/format';
 
 //
@@ -80,9 +80,9 @@ const TimeSelectorSlider: FunctionComponent<TimeSelectorSliderProps> = ({ select
     [timeStep],
   );
 
-  const timeBoundarySnapPoints = useMemo(
+  // Derived on the UI thread so the snap points follow the measured width.
+  const timeBoundarySnapPoints = useDerivedValue(
     () => timeBoundaryIndexes.map((index: number) => -(index * timeBarWidthAndMargins - (timeSelectorWidthSharedValue.value / 2))),
-    [timeBarWidthAndMargins, timeBoundaryIndexes, timeSelectorWidthSharedValue.value]
   );
 
   const onTimeSelectorBarContainerLayout = useCallback(
@@ -96,20 +96,24 @@ const TimeSelectorSlider: FunctionComponent<TimeSelectorSliderProps> = ({ select
     [selectedTimeBoundaryIndex, timeBarWidthAndMargins, timeSelectorPositionXSharedValue, timeSelectorWidthSharedValue]
   );
 
-  const onDayPanGestureStart = runOnUI(() => {
+  // Gesture callbacks run on the UI thread, so they must be worklets.
+  const onDayPanGestureStart = () => {
+    'worklet';
     timeSelectorOffsetXSharedValue.value = timeSelectorPositionXSharedValue.value;
-  });
+  };
 
-  const onDayPanGestureUpdate = runOnUI((event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
+  const onDayPanGestureUpdate = (event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
+    'worklet';
     timeSelectorPositionXSharedValue.value = timeSelectorOffsetXSharedValue.value + event.translationX;
     timeSelectorTargetXSharedValue.value = Math.abs(event.velocityX) > 150
-      ? snapPoint(timeSelectorPositionXSharedValue.value, event.velocityX, timeBoundarySnapPoints) 
-      : findClosestNumberInNumbersArray(timeSelectorPositionXSharedValue.value, timeBoundarySnapPoints);
-  });
+      ? snapPoint(timeSelectorPositionXSharedValue.value, event.velocityX, timeBoundarySnapPoints.value)
+      : findClosestNumberInNumbersArray(timeSelectorPositionXSharedValue.value, timeBoundarySnapPoints.value);
+  };
 
-  const onDayPanGestureEnd = runOnUI(() => {
+  const onDayPanGestureEnd = () => {
+    'worklet';
     timeSelectorPositionXSharedValue.value = withTiming(timeSelectorTargetXSharedValue.value);
-  });
+  };
 
   const timePanGesture = Gesture.Pan().
     onStart(onDayPanGestureStart).

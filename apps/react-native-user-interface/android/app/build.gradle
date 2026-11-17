@@ -124,3 +124,15 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+// The React Native bundle task only tracks sources under the app folder, so
+// changes to workspace libraries in libs/ would not trigger a rebundle and
+// release builds would ship stale JavaScript. Track them as inputs too.
+tasks.withType(com.facebook.react.tasks.BundleHermesCTask).configureEach {
+    inputs.files(
+        fileTree("$rootDir/../../../libs") {
+            include "**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "**/*.json", "**/*.svg"
+            exclude "**/node_modules/**"
+        }
+    ).withPropertyName("workspaceLibrarySources")
+}
