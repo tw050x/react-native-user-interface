@@ -3,13 +3,14 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/react-native-user-interface/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "start": {
       "executor": "@nx/react-native:start",
       "options": {
         "port": 8081
       },
-      "dependsOn": ["ensure-symlink", "sync-deps", "pod-install"]
+      "dependsOn": ["sync-deps", "pod-install"]
     },
     "serve": {
       "executor": "nx:run-commands",
@@ -22,7 +23,7 @@
       "options": {
         "simulator": "iPhone 14 Pro Max"
       },
-      "dependsOn": ["ensure-symlink", "sync-deps", "pod-install"]
+      "dependsOn": ["sync-deps", "pod-install"]
     },
     "bundle-ios": {
       "executor": "@nx/react-native:bundle",
@@ -31,12 +32,12 @@
         "platform": "ios",
         "bundleOutput": "dist/apps/react-native-user-interface/ios/main.jsbundle"
       },
-      "dependsOn": ["ensure-symlink"]
+      "dependsOn": []
     },
     "run-android": {
       "executor": "@nx/react-native:run-android",
       "options": {},
-      "dependsOn": ["ensure-symlink", "sync-deps"]
+      "dependsOn": ["sync-deps"]
     },
     "build-android": {
       "executor": "@nx/react-native:build-android",
@@ -45,7 +46,7 @@
         "{projectRoot}/android/app/build/outputs/apk"
       ],
       "options": {},
-      "dependsOn": ["ensure-symlink", "sync-deps"]
+      "dependsOn": ["sync-deps"]
     },
     "bundle-android": {
       "executor": "@nx/react-native:bundle",
@@ -54,14 +55,10 @@
         "platform": "android",
         "bundleOutput": "dist/apps/react-native-user-interface/android/main.jsbundle"
       },
-      "dependsOn": ["ensure-symlink"]
+      "dependsOn": []
     },
     "sync-deps": {
       "executor": "@nx/react-native:sync-deps",
-      "options": {}
-    },
-    "ensure-symlink": {
-      "executor": "@nx/react-native:ensure-symlink",
       "options": {}
     },
     "lint": {
@@ -74,7 +71,10 @@
       "options": {
         "jestConfig": "apps/react-native-user-interface/jest.config.ts"
       }
+    },
+    "upgrade": {
+      "executor": "@nx/react-native:upgrade",
+      "options": {}
     }
-  },
-  "tags": []
+  }
 }
