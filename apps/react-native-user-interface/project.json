@@ -7,10 +7,10 @@
   "targets": {
     "start": {
       "executor": "@nx/react-native:start",
+      "dependsOn": ["sync-deps", "pod-install"],
       "options": {
         "port": 8081
-      },
-      "dependsOn": ["sync-deps", "pod-install"]
+      }
     },
     "serve": {
       "executor": "nx:run-commands",
@@ -20,24 +20,24 @@
     },
     "run-ios": {
       "executor": "@nx/react-native:run-ios",
+      "dependsOn": ["sync-deps", "pod-install"],
       "options": {
         "simulator": "iPhone 14 Pro Max"
-      },
-      "dependsOn": ["sync-deps", "pod-install"]
+      }
     },
     "bundle-ios": {
       "executor": "@nx/react-native:bundle",
+      "dependsOn": [],
       "options": {
         "entryFile": "src/main.tsx",
         "platform": "ios",
         "bundleOutput": "dist/apps/react-native-user-interface/ios/main.jsbundle"
-      },
-      "dependsOn": []
+      }
     },
     "run-android": {
       "executor": "@nx/react-native:run-android",
-      "options": {},
-      "dependsOn": ["sync-deps"]
+      "dependsOn": ["sync-deps"],
+      "options": {}
     },
     "build-android": {
       "executor": "@nx/react-native:build-android",
@@ -45,17 +45,17 @@
         "{projectRoot}/android/app/build/outputs/bundle",
         "{projectRoot}/android/app/build/outputs/apk"
       ],
-      "options": {},
-      "dependsOn": ["sync-deps"]
+      "dependsOn": ["sync-deps"],
+      "options": {}
     },
     "bundle-android": {
       "executor": "@nx/react-native:bundle",
+      "dependsOn": [],
       "options": {
         "entryFile": "src/main.tsx",
         "platform": "android",
         "bundleOutput": "dist/apps/react-native-user-interface/android/main.jsbundle"
-      },
-      "dependsOn": []
+      }
     },
     "sync-deps": {
       "executor": "@nx/react-native:sync-deps",

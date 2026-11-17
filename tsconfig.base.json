@@ -21,7 +21,12 @@
       "@react-native-user-interface/time-picker-modal": [
         "libs/time-picker-modal/src/index.ts"
       ]
-    }
+    },
+    "strict": false,
+    "noUncheckedSideEffectImports": false,
+    "types": ["*"],
+    "esModuleInterop": false,
+    "ignoreDeprecations": "6.0"
   },
   "exclude": ["node_modules", "tmp"]
 }

@@ -114,3 +114,4 @@ apps/date-picker-modal-e2e/artifacts
 .claude/worktrees
 .nx/polygraph
 .nx/self-healing
+.nx/migrate-runs

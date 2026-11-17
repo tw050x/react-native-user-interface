@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/react-native-user-interface-e2e/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["react-native-user-interface"],
   "targets": {
     "build-ios": {
       "executor": "@nx/detox:build",
@@ -56,7 +58,5 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["react-native-user-interface"]
+  }
 }
