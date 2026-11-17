@@ -107,3 +107,4 @@ apps/date-picker-modal-e2e/artifacts
 # 
 .env
 .nx/cache
+.nx/workspace-data
