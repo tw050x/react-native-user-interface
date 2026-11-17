@@ -9,11 +9,7 @@
       "options": {
         "port": 8081
       },
-      "dependsOn": [
-        "ensure-symlink",
-        "sync-deps",
-        "pod-install"
-      ]
+      "dependsOn": ["ensure-symlink", "sync-deps", "pod-install"]
     },
     "serve": {
       "executor": "nx:run-commands",
@@ -26,11 +22,7 @@
       "options": {
         "simulator": "iPhone 14 Pro Max"
       },
-      "dependsOn": [
-        "ensure-symlink",
-        "sync-deps",
-        "pod-install"
-      ]
+      "dependsOn": ["ensure-symlink", "sync-deps", "pod-install"]
     },
     "bundle-ios": {
       "executor": "@nx/react-native:bundle",
@@ -39,17 +31,12 @@
         "platform": "ios",
         "bundleOutput": "dist/apps/react-native-user-interface/ios/main.jsbundle"
       },
-      "dependsOn": [
-        "ensure-symlink"
-      ]
+      "dependsOn": ["ensure-symlink"]
     },
     "run-android": {
       "executor": "@nx/react-native:run-android",
       "options": {},
-      "dependsOn": [
-        "ensure-symlink",
-        "sync-deps"
-      ]
+      "dependsOn": ["ensure-symlink", "sync-deps"]
     },
     "build-android": {
       "executor": "@nx/react-native:build-android",
@@ -58,10 +45,7 @@
         "{projectRoot}/android/app/build/outputs/apk"
       ],
       "options": {},
-      "dependsOn": [
-        "ensure-symlink",
-        "sync-deps"
-      ]
+      "dependsOn": ["ensure-symlink", "sync-deps"]
     },
     "bundle-android": {
       "executor": "@nx/react-native:bundle",
@@ -70,9 +54,7 @@
         "platform": "android",
         "bundleOutput": "dist/apps/react-native-user-interface/android/main.jsbundle"
       },
-      "dependsOn": [
-        "ensure-symlink"
-      ]
+      "dependsOn": ["ensure-symlink"]
     },
     "sync-deps": {
       "executor": "@nx/react-native:sync-deps",
@@ -83,24 +65,14 @@
       "options": {}
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
-      "options": {
-        "lintFilePatterns": [
-          "apps/react-native-user-interface/**/*.{ts,tsx,js,jsx}"
-        ]
-      }
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/react-native-user-interface/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/react-native-user-interface/jest.config.ts"
       }
     }
   },

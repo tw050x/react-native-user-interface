@@ -52,7 +52,7 @@ const TimeSelectorControlsAndValue: FunctionComponent<TimeSelectorControlsAndVal
 }) => {
   const value = format(getDatetimeFromSelectedTimeBoundaryIndexAndTimeStep(selectedTimeBoundaryIndex, timeStep), 'hh:mm aa');
 
-  const intervalId = useRef<NodeJS.Timer | null>(null);
+  const intervalId = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const onAddTimeStepLongPress = useCallback(
     () => {

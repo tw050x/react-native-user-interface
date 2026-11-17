@@ -16,23 +16,18 @@
         "assets": [
           "libs/date-picker-modal/*.md",
           "libs/date-picker-modal/src/asset/*.svg"
-        ],
-        "updateBuildableProjectDepsInPackageJson": true
+        ]
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/date-picker-modal/**/*.{ts,tsx,js,jsx}"]
-      }
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/date-picker-modal/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/date-picker-modal/jest.config.ts"
       }
     }
   }
