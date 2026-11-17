@@ -41,7 +41,7 @@
     "emulator": {
       "type": "android.emulator",
       "device": {
-        "avdName": "Pixel_4a_API_30"
+        "avdName": "Medium_Phone_API_37.0"
       }
     }
   },
