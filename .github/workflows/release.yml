@@ -81,7 +81,7 @@ jobs:
       # and creates the GitHub release. See "release" in nx.json.
       - name: Version and tag
         if: inputs.bump != 'publish-only'
-        run: yarn nx release ${{ inputs.bump }} --projects=${{ inputs.package }} --yes --skip-publish ${{ inputs.dry-run && '--dry-run' || '' }}
+        run: yarn nx release ${{ inputs.bump }} --projects=${{ inputs.package }} --skip-publish ${{ inputs.dry-run && '--dry-run' || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
