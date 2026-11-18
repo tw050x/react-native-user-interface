@@ -1,8 +1,8 @@
-import { device, element, by, expect, waitFor } from 'detox';
+import { by, device, element, expect, waitFor } from 'detox';
 
-// On a phone the time picker card starts below the fold.
-const scrollTo = async (testID: string) => {
-  await waitFor(element(by.id(testID))).toBeVisible().whileElement(by.id('showcase')).scroll(200, 'down');
+// Scrolls the current screen until the element is on screen.
+const scrollTo = async (screenTestID: string, testID: string) => {
+  await waitFor(element(by.id(testID))).toBeVisible().whileElement(by.id(screenTestID)).scroll(200, 'down');
 };
 
 describe('ReactNativeUserInterface', () => {
@@ -10,33 +10,37 @@ describe('ReactNativeUserInterface', () => {
     await device.reloadReactNative();
   });
 
-  it('should display the showcase with a card for each picker', async () => {
-    await expect(element(by.text('Component showcase'))).toBeVisible();
-    await expect(element(by.id('summary-text'))).toBeVisible();
-    await scrollTo('date-button');
-    await scrollTo('time-button');
+  it('lists every component on the home screen', async () => {
+    await expect(element(by.text('Components'))).toBeVisible();
+    await expect(element(by.id('open-date-picker'))).toBeVisible();
+    await expect(element(by.id('open-time-picker'))).toBeVisible();
   });
 
-  it('should change the time step option', async () => {
-    await scrollTo('time-animation');
-    await element(by.id('time-step-15')).tap();
-    await element(by.id('time-button')).tap();
-    await expect(element(by.text('Select a Time'))).toBeVisible();
-    await element(by.text('Cancel')).tap();
+  it('opens a component screen and goes back', async () => {
+    await element(by.id('open-date-picker')).tap();
+    await expect(element(by.id('date-picker-screen'))).toBeVisible();
+
+    await element(by.id('back')).tap();
+    await expect(element(by.id('home-screen'))).toBeVisible();
   });
 
-  it('should open and cancel the date picker', async () => {
-    await scrollTo('date-button');
+  it('opens and cancels the date picker', async () => {
+    await element(by.id('open-date-picker')).tap();
     await element(by.id('date-button')).tap();
     await expect(element(by.text('Select a Date'))).toBeVisible();
     await expect(element(by.id('date-picker-calendar'))).toBeVisible();
 
     await element(by.text('Cancel')).tap();
-    await expect(element(by.text('Select a Date'))).not.toBeVisible();
+    await waitFor(element(by.text('Select a Date'))).not.toBeVisible().withTimeout(3000);
   });
 
-  it('should open the time picker, drag the slider and keep the app running', async () => {
-    await scrollTo('time-button');
+  it('drags the time picker slider with a different timeStep and stylesheet', async () => {
+    await element(by.id('open-time-picker')).tap();
+    await scrollTo('time-picker-screen', 'time-theme');
+    await element(by.id('time-step-15')).tap();
+    await element(by.id('time-theme-forest')).tap();
+
+    await element(by.id('time-picker-screen')).scrollTo('top');
     await element(by.id('time-button')).tap();
     await expect(element(by.text('Select a Time'))).toBeVisible();
 
@@ -44,6 +48,6 @@ describe('ReactNativeUserInterface', () => {
     await expect(element(by.text('Select a Time'))).toBeVisible();
 
     await element(by.text('Cancel')).tap();
-    await expect(element(by.text('Select a Time'))).not.toBeVisible();
+    await waitFor(element(by.text('Select a Time'))).not.toBeVisible().withTimeout(3000);
   });
 });
