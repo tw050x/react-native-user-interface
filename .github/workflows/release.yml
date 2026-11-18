@@ -54,7 +54,9 @@ jobs:
         with:
           node-version: 22
           cache: yarn
-          registry-url: https://registry.npmjs.org
+          # No registry-url: it writes an .npmrc expecting NODE_AUTH_TOKEN, which
+          # breaks Yarn 1. Trusted publishing needs no token, and npm already
+          # publishes to registry.npmjs.org.
 
       # Trusted publishing needs npm 11.5.1 or later.
       - name: Update npm
