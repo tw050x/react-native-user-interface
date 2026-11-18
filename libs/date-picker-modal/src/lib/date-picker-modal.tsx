@@ -12,7 +12,7 @@ import ChevronRight from '../asset/ChevronRight.svg';
 import useCurrentDatetime from './hooks/use-current-datetime';
 
 // helpers
-import getCalendarWeeksForDate, { CalendarDay, CalendarWeek } from './helpers/get-calendar-weeks-for-date';
+import getCalendarWeeksForDate, { CalendarDay, CalendarWeek, MAX_CALENDAR_WEEKS } from './helpers/get-calendar-weeks-for-date';
 
 //
 export type DatePickerModalStyleSheet = {
@@ -382,9 +382,16 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
       )
     };
 
+    // Always reserve room for the most weeks a month can need. Months have five
+    // or six weeks, and the sheet is anchored to the bottom of the screen, so
+    // without this the heading and controls would jump when the row count
+    // changes. The weeks are laid out from the top and any spare row is left
+    // empty at the bottom.
+    const weeksStyle = { minHeight: dateSelectorColumnWidth * MAX_CALENDAR_WEEKS };
+
     return (
       <GestureDetector gesture={dayTapGesture}>
-        <View style={[defaultStylesheet.dateSelectorWeeks, stylesheet.dateSelectorWeeks]} testID="date-picker-calendar">
+        <View style={[defaultStylesheet.dateSelectorWeeks, stylesheet.dateSelectorWeeks, weeksStyle]} testID="date-picker-calendar">
           {dateSelectorWeeks.map(dateSelectorWeeksMapper)}
         </View>
       </GestureDetector>
@@ -397,9 +404,10 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
     if (dateSelectorColumnWidth === 0) return;
 
     const columnIndex = Math.min(Math.floor(event.x / dateSelectorColumnWidth), 6);
-    const rowIndex = Math.min(Math.floor(event.y / dateSelectorColumnWidth), dateSelectorWeeks.length - 1);
+    const rowIndex = Math.floor(event.y / dateSelectorColumnWidth);
 
-    if (columnIndex < 0 || rowIndex < 0) return;
+    // Taps in the empty row reserved below a five-week month select nothing.
+    if (columnIndex < 0 || rowIndex < 0 || rowIndex >= dateSelectorWeeks.length) return;
 
     const tappedDate = dateSelectorWeeks[rowIndex]?.days[columnIndex]?.date;
     if (tappedDate === undefined) return;

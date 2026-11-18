@@ -16,6 +16,12 @@ export type CalendarWeek = {
 const DAYS_IN_A_WEEK = 7;
 
 /**
+ * The most weeks any month needs. The calendar reserves room for this many rows
+ * so its height does not change between months.
+ */
+export const MAX_CALENDAR_WEEKS = 6;
+
+/**
  * Builds the weeks shown in the calendar for the month containing `date`.
  *
  * Weeks start on Sunday. The grid always shows at least one day from the

@@ -1,4 +1,4 @@
-import getCalendarWeeksForDate, { CalendarDay } from './get-calendar-weeks-for-date';
+import getCalendarWeeksForDate, { CalendarDay, MAX_CALENDAR_WEEKS } from './get-calendar-weeks-for-date';
 
 const ymd = (date: Date) => [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
 
@@ -61,6 +61,12 @@ describe('getCalendarWeeksForDate', () => {
 
       expect(days[0].isPreviousMonth).toBe(true);
       expect(days[days.length - 1].isNextMonth).toBe(true);
+    }
+  });
+
+  it(`never needs more than ${MAX_CALENDAR_WEEKS} weeks`, () => {
+    for (let month = 0; month < 600; month++) {
+      expect(getCalendarWeeksForDate(new Date(2000, month, 1)).length).toBeLessThanOrEqual(MAX_CALENDAR_WEEKS);
     }
   });
 
