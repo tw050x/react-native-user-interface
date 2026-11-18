@@ -176,7 +176,7 @@ const defaultStylesheet = StyleSheet.create({
 });
 
 //
-type DatePickerModalProps = {
+export type DatePickerModalProps = {
   animationType?: 'fade' | 'none' | 'slide';
   initialDate?: Date;
   onCancel?: () => void;

@@ -1,6 +1,28 @@
 {
   "name": "@react-native-user-interface/date-picker-modal",
   "version": "0.2.0",
+  "description": "A gesture driven date picker in a bottom-sheet modal for React Native, built on Reanimated and Gesture Handler.",
+  "keywords": [
+    "react-native",
+    "react-native-component",
+    "date-picker",
+    "datepicker",
+    "modal",
+    "picker",
+    "reanimated",
+    "gesture-handler",
+    "ios",
+    "android"
+  ],
+  "homepage": "https://github.com/tw050x/react-native-user-interface/tree/main/libs/date-picker-modal#readme",
+  "bugs": {
+    "url": "https://github.com/tw050x/react-native-user-interface/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tw050x/react-native-user-interface.git",
+    "directory": "libs/date-picker-modal"
+  },
   "license": "MIT",
   "private": false,
   "peerDependencies": {

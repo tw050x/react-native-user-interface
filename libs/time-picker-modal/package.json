@@ -1,6 +1,28 @@
 {
   "name": "@react-native-user-interface/time-picker-modal",
   "version": "0.1.0",
+  "description": "A gesture driven time picker in a bottom-sheet modal for React Native, built on Reanimated and Gesture Handler.",
+  "keywords": [
+    "react-native",
+    "react-native-component",
+    "time-picker",
+    "timepicker",
+    "modal",
+    "picker",
+    "reanimated",
+    "gesture-handler",
+    "ios",
+    "android"
+  ],
+  "homepage": "https://github.com/tw050x/react-native-user-interface/tree/main/libs/time-picker-modal#readme",
+  "bugs": {
+    "url": "https://github.com/tw050x/react-native-user-interface/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tw050x/react-native-user-interface.git",
+    "directory": "libs/time-picker-modal"
+  },
   "license": "MIT",
   "private": false,
   "peerDependencies": {

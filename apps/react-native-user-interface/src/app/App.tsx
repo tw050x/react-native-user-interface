@@ -162,7 +162,7 @@ const Showcase = () => {
           <View style={[styles.cards, wide && styles.cardsWide]}>
             <View style={wide && styles.cardColumn}>
               <ComponentCard
-                description="A month calendar in a modal. Swipe between months and tap a day. The time of day is kept."
+                description="A month calendar in a modal. Step through months and years with the arrows and tap a day. The time of day is kept."
                 fieldLabel="Date"
                 fieldValue={format(datetime, 'EEE d MMM yyyy')}
                 onOpen={openDateModal}

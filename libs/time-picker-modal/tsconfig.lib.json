@@ -3,6 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
+    "importHelpers": false,
     "module": "None",
     "noEmit": false,
     "outDir": "../../dist/out-tsc",
