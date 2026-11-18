@@ -2,6 +2,10 @@
 
 A date picker for React Native that opens as a bottom-sheet modal. Step through months and years with the arrows, tap a day, and confirm.
 
+<p align="center">
+  <img alt="Date picker demo: stepping through months and picking a day" src="https://raw.githubusercontent.com/tw050x/react-native-user-interface/main/libs/date-picker-modal/media/demo.gif" width="300" />
+</p>
+
 > :warning: This library is not yet recommended for production use. Use at your own risk.
 
 - Shows a full month, Sunday to Saturday, with days from the previous and next months greyed out.

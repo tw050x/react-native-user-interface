@@ -2,6 +2,10 @@
 
 A time picker for React Native that opens as a bottom-sheet modal. Drag the slider along the day, or step with the − and + buttons, then confirm.
 
+<p align="center">
+  <img alt="Time picker demo: dragging the slider and stepping with the + button" src="https://raw.githubusercontent.com/tw050x/react-native-user-interface/main/libs/time-picker-modal/media/demo.gif" width="300" />
+</p>
+
 > :warning: This library is not yet recommended for production use. Use at your own risk.
 
 - A slider runs across the day, marking every hour and half hour. It snaps to the nearest step and follows the speed of your swipe.
