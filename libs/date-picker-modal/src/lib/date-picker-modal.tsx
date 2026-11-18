@@ -272,24 +272,24 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
     return (
       <View style={[defaultStylesheet.dateSelectorControls, stylesheet.dateSelectorControls]}>
         <View style={[defaultStylesheet.dateSelectorControl, stylesheet.dateSelectorControl]}>
-          <TouchableOpacity onPress={onGoToPreviousYearPress} style={[defaultStylesheet.dateSelectorControlButton]}>
+          <TouchableOpacity onPress={onGoToPreviousYearPress} testID="date-picker-previous-year" style={[defaultStylesheet.dateSelectorControlButton]}>
             <ChevronLeft />
           </TouchableOpacity>
           <Text style={[defaultStylesheet.dateSelectorControlText, stylesheet.dateSelectorControlText]}>
             {format(focusedDate, 'yyyy')}
           </Text>
-          <TouchableOpacity onPress={onGoToNextYearPress} style={[defaultStylesheet.dateSelectorControlButton]}>
+          <TouchableOpacity onPress={onGoToNextYearPress} testID="date-picker-next-year" style={[defaultStylesheet.dateSelectorControlButton]}>
             <ChevronRight />
           </TouchableOpacity>
         </View>
         <View style={[defaultStylesheet.dateSelectorControl, stylesheet.dateSelectorControl]}>
-          <TouchableOpacity onPress={onGoToPreviousMonthPress} style={[defaultStylesheet.dateSelectorControlButton]}>
+          <TouchableOpacity onPress={onGoToPreviousMonthPress} testID="date-picker-previous-month" style={[defaultStylesheet.dateSelectorControlButton]}>
             <ChevronLeft />
           </TouchableOpacity>
           <Text style={[defaultStylesheet.dateSelectorControlText, stylesheet.dateSelectorControlText]}>
             {format(focusedDate, 'MMM')}
           </Text>
-          <TouchableOpacity onPress={onGoToNextMonthPress} style={[defaultStylesheet.dateSelectorControlButton]}>
+          <TouchableOpacity onPress={onGoToNextMonthPress} testID="date-picker-next-month" style={[defaultStylesheet.dateSelectorControlButton]}>
             <ChevronRight />
           </TouchableOpacity>
         </View>
@@ -449,10 +449,10 @@ const DatePickerModal: FunctionComponent<DatePickerModalProps> = ({
             <View style={[defaultStylesheet.selectedDateErrorContainer, stylesheet.selectedDateErrorContainer]}>
               {selectedDateError && <Text style={[defaultStylesheet.selectedDateErrorText, stylesheet.selectedDateErrorText]}>You need to select a date</Text>}
             </View>
-            <TouchableOpacity onPress={onConfirmPress} style={[defaultStylesheet.confirmButton, stylesheet.confirmButton]}>
+            <TouchableOpacity onPress={onConfirmPress} testID="date-picker-confirm" style={[defaultStylesheet.confirmButton, stylesheet.confirmButton]}>
               <Text style={[defaultStylesheet.confirmButtonText, stylesheet.confirmButtonText]}>Confirm</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={onCancelPress} style={[defaultStylesheet.cancelButton, stylesheet.cancelButton]}>
+            <TouchableOpacity onPress={onCancelPress} testID="date-picker-cancel" style={[defaultStylesheet.cancelButton, stylesheet.cancelButton]}>
               <Text style={[defaultStylesheet.cancelButtonText, stylesheet.cancelButtonText]}>Cancel</Text>
             </TouchableOpacity>
           </TouchableWithoutFeedback>

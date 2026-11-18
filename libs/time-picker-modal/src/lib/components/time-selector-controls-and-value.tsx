@@ -80,11 +80,11 @@ const TimeSelectorControlsAndValue: FunctionComponent<TimeSelectorControlsAndVal
 
   return (
     <View style={[defaultStylesheet.timeSelectorControlsAndValueContainer, stylesheet.timeSelectorControlsAndValueContainer]}>
-      <TouchableOpacity onLongPress={onRemoveTimeStepLongPress} onPress={onRemoveOneTimeStepToSelectedDatePress} onPressOut={onPressOut}>
+      <TouchableOpacity onLongPress={onRemoveTimeStepLongPress} onPress={onRemoveOneTimeStepToSelectedDatePress} onPressOut={onPressOut} testID="time-picker-decrement">
         <CircledDash />
       </TouchableOpacity>
       <Text style={[defaultStylesheet.timeSelectorValue, stylesheet.timeSelectorValue]}>{value}</Text>
-      <TouchableOpacity onLongPress={onAddTimeStepLongPress} onPress={onAddOneTimeStepToSelectedDatePress} onPressOut={onPressOut}>
+      <TouchableOpacity onLongPress={onAddTimeStepLongPress} onPress={onAddOneTimeStepToSelectedDatePress} onPressOut={onPressOut} testID="time-picker-increment">
         <CircledPlus />
       </TouchableOpacity>
     </View>

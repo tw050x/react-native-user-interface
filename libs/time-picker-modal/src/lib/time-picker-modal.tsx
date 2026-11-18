@@ -302,10 +302,10 @@ const TimePickerModalContent: FunctionComponent<TimePickerModalContentProps> = (
         <View style={[defaultStylesheet.selectedTimeBoundaryIndexErrorContainer, stylesheet.selectedTimeBoundaryIndexErrorContainer]}>
           {selectedTimeBoundaryIndexError && <Text style={[defaultStylesheet.selectedDateErrorText, stylesheet.selectedDateErrorText]}>You need to select a time</Text>}
         </View>
-        <TouchableOpacity onPress={onConfirmPress} style={[defaultStylesheet.confirmButton, stylesheet.confirmButton]}>
+        <TouchableOpacity onPress={onConfirmPress} testID="time-picker-confirm" style={[defaultStylesheet.confirmButton, stylesheet.confirmButton]}>
           <Text style={[defaultStylesheet.confirmButtonText, stylesheet.confirmButtonText]}>Confirm</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onCancelPress} style={[defaultStylesheet.cancelButton, stylesheet.cancelButton]}>
+        <TouchableOpacity onPress={onCancelPress} testID="time-picker-cancel" style={[defaultStylesheet.cancelButton, stylesheet.cancelButton]}>
           <Text style={[defaultStylesheet.cancelButtonText, stylesheet.cancelButtonText]}>Cancel</Text>
         </TouchableOpacity>
       </TouchableWithoutFeedback>
