@@ -1,6 +1,6 @@
 {
   "name": "@react-native-user-interface/time-picker-modal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A gesture driven time picker in a bottom-sheet modal for React Native, built on Reanimated and Gesture Handler.",
   "keywords": [
     "react-native",
