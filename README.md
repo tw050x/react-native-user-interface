@@ -31,6 +31,8 @@ Each library is versioned and published to npm on its own, from GitHub Actions:
 
 A release lints and tests the package, bumps its version, commits and tags it (for example `date-picker-modal@0.2.1`), creates a GitHub release with notes from the commit messages, and publishes to npm with provenance.
 
+If a release fails after it has been tagged, run the workflow again with the bump set to **publish-only**: it publishes the version already committed, without bumping it again.
+
 Release notes are grouped by the commit message prefix: `Breaking:`, `Feature:`/`New:`, `Upgrade:`, `Update:`, `Fix:` and `Docs:`. Commits starting `Chore:` or `Build:` are left out.
 
 Publishing uses [npm trusted publishing](https://docs.npmjs.com/trusted-publishers), so there is no npm token to manage. Each package's settings on npmjs.com must list this repository and the `release.yml` workflow as a trusted publisher.

@@ -20,12 +20,6 @@
           "libs/date-picker-modal/src/asset/*.svg"
         ]
       }
-    },
-    "nx-release-publish": {
-      "options": {
-        "packageRoot": "dist/libs/@react-native-user-interface/date-picker-modal",
-        "registry": "https://registry.npmjs.org/"
-      }
     }
   }
 }

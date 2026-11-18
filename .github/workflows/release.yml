@@ -3,6 +3,9 @@ name: Release
 # Run from the Actions tab: pick a package and a version bump. With dry run
 # on (the default) it shows what would happen without changing anything.
 #
+# "publish-only" skips the version bump and publishes the version already in
+# the package's package.json: use it if a release failed after tagging.
+#
 # Publishing uses npm trusted publishing (OIDC), so no npm token is stored.
 # Each package must list this repository and this workflow file (release.yml)
 # as its trusted publisher in its settings on npmjs.com.
@@ -24,6 +27,7 @@ on:
           - patch
           - minor
           - major
+          - publish-only
       dry-run:
         description: Dry run (show what would happen, change nothing)
         required: true
@@ -73,9 +77,20 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      # Builds, bumps the version, commits, tags (<package>@<version>), pushes,
-      # creates the GitHub release and publishes to npm. See "release" in nx.json.
-      - name: Release
-        run: yarn nx release ${{ inputs.bump }} --projects=${{ inputs.package }} --yes ${{ inputs.dry-run && '--dry-run' || '' }}
+      # Builds, bumps the version, commits, tags (<package>@<version>), pushes
+      # and creates the GitHub release. See "release" in nx.json.
+      - name: Version and tag
+        if: inputs.bump != 'publish-only'
+        run: yarn nx release ${{ inputs.bump }} --projects=${{ inputs.package }} --yes --skip-publish ${{ inputs.dry-run && '--dry-run' || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build
+        if: inputs.bump == 'publish-only'
+        run: yarn nx build ${{ inputs.package }}
+
+      # Published with npm itself: Nx would use `yarn publish` here, and Yarn 1
+      # does not support trusted publishing. npm adds provenance automatically.
+      - name: Publish to npm
+        working-directory: dist/libs/@react-native-user-interface/${{ inputs.package }}
+        run: npm publish --access public ${{ inputs.dry-run && '--dry-run' || '' }}
