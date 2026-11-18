@@ -23,7 +23,8 @@
     },
     "nx-release-publish": {
       "options": {
-        "packageRoot": "dist/libs/@react-native-user-interface/time-picker-modal"
+        "packageRoot": "dist/libs/@react-native-user-interface/time-picker-modal",
+        "registry": "https://registry.npmjs.org/"
       }
     }
   }
