@@ -1,6 +1,6 @@
 {
   "name": "@react-native-user-interface/date-picker-modal",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A gesture driven date picker in a bottom-sheet modal for React Native, built on Reanimated and Gesture Handler.",
   "keywords": [
     "react-native",
