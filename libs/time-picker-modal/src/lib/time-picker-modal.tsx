@@ -286,8 +286,7 @@ const TimePickerModalContent: FunctionComponent<TimePickerModalContentProps> = (
       if (index < 0) runOnJS(setSelectedTimeBoundaryIndex)(0);
       else if (index > timeBoundaryIndexesLength -1) runOnJS(setSelectedTimeBoundaryIndex)(timeBoundaryIndexesLength - 1);
       else runOnJS(setSelectedTimeBoundaryIndex)(index);
-    },
-    [timeBarWidthAndMargins, timeSelectorWidthSharedValue]
+    }
   );
 
   return (
