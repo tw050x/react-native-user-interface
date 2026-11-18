@@ -2,9 +2,16 @@
 
 A date picker for React Native that opens as a bottom-sheet modal. Step through months and years with the arrows, tap a day, and confirm.
 
-<p align="center">
-  <img alt="Date picker demo: stepping through months and picking a day" src="https://raw.githubusercontent.com/tw050x/react-native-user-interface/main/libs/date-picker-modal/media/demo-android.gif" width="300" />
-</p>
+<table align="center">
+  <tr>
+    <th>iOS</th>
+    <th>Android</th>
+  </tr>
+  <tr>
+    <td><img alt="Date picker demo: stepping through months and picking a day, on iOS" src="https://raw.githubusercontent.com/tw050x/react-native-user-interface/main/libs/date-picker-modal/media/demo-ios.gif" width="260" /></td>
+    <td><img alt="Date picker demo: stepping through months and picking a day, on Android" src="https://raw.githubusercontent.com/tw050x/react-native-user-interface/main/libs/date-picker-modal/media/demo-android.gif" width="260" /></td>
+  </tr>
+</table>
 
 > :warning: This library is not yet recommended for production use. Use at your own risk.
 

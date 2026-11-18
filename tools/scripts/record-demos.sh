@@ -11,6 +11,9 @@
 # react-native-user-interface-e2e:build-android or build-ios), Metro running
 # (yarn nx start react-native-user-interface), ffmpeg, and for iOS
 # applesimutils.
+#
+# Set DETOX_DEVICE to pin the device: a simulator UDID on iOS (useful when
+# several iPhone 17 simulators exist) or an AVD name on Android.
 set -e
 platform=$1
 case $platform in
@@ -29,9 +32,21 @@ if [[ $platform == android ]]; then
   for s in window_animation_scale transition_animation_scale animator_duration_scale; do $adb shell settings put global $s 1; done
 fi
 
+device_args=()
+if [[ -n $DETOX_DEVICE ]]; then
+  # A config that extends the project's one, with the device pinned.
+  config=$artifacts/detoxrc.json
+  mkdir -p $artifacts
+  if [[ $platform == ios ]]; then device='{"type":"ios.simulator","device":{"id":"'$DETOX_DEVICE'"}}'; key=simulator
+  else device='{"type":"android.emulator","device":{"avdName":"'$DETOX_DEVICE'"}}'; key=emulator; fi
+  echo '{"extends":"'$root'/apps/react-native-user-interface-e2e/.detoxrc.json","devices":{"'$key'":'$device'}}' > $config
+  device_args=(--config-path $config)
+fi
+
 cd $root/apps/react-native-user-interface-e2e
 $root/node_modules/.bin/detox test \
   --configuration $configuration \
+  $device_args \
   --record-videos all \
   --artifacts-location $artifacts \
   --testMatch '**/*.demo.ts' \
