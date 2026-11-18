@@ -8,7 +8,9 @@
     "build": {
       "executor": "@nx/js:tsc",
       "inputs": [],
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/@react-native-user-interface/time-picker-modal",
         "main": "libs/time-picker-modal/src/index.ts",
@@ -17,6 +19,11 @@
           "libs/time-picker-modal/*.md",
           "libs/time-picker-modal/src/asset/*.svg"
         ]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/libs/@react-native-user-interface/time-picker-modal"
       }
     }
   }

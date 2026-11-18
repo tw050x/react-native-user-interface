@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+  pull_request:
+
+jobs:
+  check:
+    name: Lint, test, typecheck and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Lint, test and typecheck all apps and libraries
+        run: yarn nx run-many --targets=lint,test,typecheck --all
+      - name: Build the libraries
+        run: yarn nx run-many --target=build --projects=date-picker-modal,time-picker-modal

@@ -8,7 +8,9 @@
     "build": {
       "executor": "@nx/js:tsc",
       "inputs": [],
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/@react-native-user-interface/date-picker-modal",
         "main": "libs/date-picker-modal/src/index.ts",
@@ -17,6 +19,11 @@
           "libs/date-picker-modal/*.md",
           "libs/date-picker-modal/src/asset/*.svg"
         ]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/libs/@react-native-user-interface/date-picker-modal"
       }
     }
   }

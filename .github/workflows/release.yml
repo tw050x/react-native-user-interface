@@ -1,68 +1,79 @@
-name: Create a release
+name: Release
 
+# Run from the Actions tab: pick a package and a version bump. With dry run
+# on (the default) it shows what would happen without changing anything.
+#
+# Publishing uses npm trusted publishing (OIDC), so no npm token is stored.
+# Each package must list this repository and this workflow file (release.yml)
+# as its trusted publisher in its settings on npmjs.com.
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Package to release
+        required: true
+        type: choice
+        options:
+          - date-picker-modal
+          - time-picker-modal
+      bump:
+        description: Version bump
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      dry-run:
+        description: Dry run (show what would happen, change nothing)
+        required: true
+        type: boolean
+        default: true
+
+# One release at a time, so two runs cannot race for the same version.
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
-  prepare:
-    name: Prepare
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: yarn
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Lint all apps and libraries
-        run: yarn nx run-many --target=lint --all
-      - name: Test all apps and libraries
-        run: yarn nx run-many --target=test --all
-  build:
-    name: Build
-    needs: prepare
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: yarn
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Build all libraries
-        run: yarn nx run-many --target=build --projects=date-picker-modal,time-picker-modal
-      - name: Store build artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: distribution
-          path: dist/
-  version:
-    name: Version
-    needs: build
+  release:
+    name: Release ${{ inputs.package }} (${{ inputs.bump }})
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      contents: write # push the release commit and tag, create the GitHub release
+      id-token: write # npm trusted publishing and provenance
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          # Full history and tags, to write release notes since the last release.
+          fetch-depth: 0
+
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: yarn
+          registry-url: https://registry.npmjs.org
+
+      # Trusted publishing needs npm 11.5.1 or later.
+      - name: Update npm
+        run: npm install --global npm@^11.5.1
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Run versioning
-        run: yarn run semantic-release
+
+      - name: Lint, test and typecheck
+        run: yarn nx run-many --targets=lint,test,typecheck --projects=${{ inputs.package }}
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # Builds, bumps the version, commits, tags (<package>@<version>), pushes,
+      # creates the GitHub release and publishes to npm. See "release" in nx.json.
+      - name: Release
+        run: yarn nx release ${{ inputs.bump }} --projects=${{ inputs.package }} --yes ${{ inputs.dry-run && '--dry-run' || '' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

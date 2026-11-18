@@ -101,5 +101,91 @@
         }
       }
     }
-  ]
+  ],
+  "release": {
+    "projects": [
+      "date-picker-modal",
+      "time-picker-modal"
+    ],
+    "projectsRelationship": "independent",
+    "releaseTag": {
+      "pattern": "{projectName}@{version}"
+    },
+    "conventionalCommits": {
+      "types": {
+        "Breaking": {
+          "semverBump": "major",
+          "changelog": {
+            "title": "Breaking changes"
+          }
+        },
+        "Feature": {
+          "semverBump": "minor",
+          "changelog": {
+            "title": "Features"
+          }
+        },
+        "New": {
+          "semverBump": "minor",
+          "changelog": {
+            "title": "Features"
+          }
+        },
+        "Upgrade": {
+          "semverBump": "minor",
+          "changelog": {
+            "title": "Upgrades"
+          }
+        },
+        "Update": {
+          "semverBump": "minor",
+          "changelog": {
+            "title": "Updates"
+          }
+        },
+        "Fix": {
+          "semverBump": "patch",
+          "changelog": {
+            "title": "Fixes"
+          }
+        },
+        "Docs": {
+          "semverBump": "patch",
+          "changelog": {
+            "title": "Documentation"
+          }
+        },
+        "Chore": {
+          "semverBump": "none",
+          "changelog": false
+        },
+        "Build": {
+          "semverBump": "none",
+          "changelog": false
+        },
+        "Release": {
+          "semverBump": "none",
+          "changelog": false
+        }
+      }
+    },
+    "version": {
+      "currentVersionResolver": "disk",
+      "preVersionCommand": "yarn nx run-many -t build -p date-picker-modal,time-picker-modal",
+      "manifestRootsToUpdate": [
+        "{projectRoot}",
+        "dist/libs/@react-native-user-interface/{projectName}"
+      ]
+    },
+    "changelog": {
+      "workspaceChangelog": false,
+      "projectChangelogs": {
+        "file": false,
+        "createRelease": "github"
+      }
+    },
+    "git": {
+      "commitMessage": "Release: {projectName}@{version}"
+    }
+  }
 }

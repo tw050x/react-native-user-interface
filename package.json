@@ -5,7 +5,6 @@
   "scripts": {
     "build": "nx build",
     "nx": "nx",
-    "semantic-release": "semantic-release",
     "start": "nx serve",
     "test": "nx test"
   },
@@ -39,8 +38,6 @@
     "@react-native-community/cli-platform-android": "~20.1.0",
     "@react-native/babel-preset": "~0.84.1",
     "@react-native/metro-config": "~0.84.1",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^8.0.6",
     "@swc/helpers": "~0.5.18",
     "@types/jest": "30.0.0",
     "@types/node": "18.19.99",
@@ -71,7 +68,6 @@
     "react-native-svg": "~15.15.0",
     "react-native-svg-transformer": "~1.5.1",
     "react-native-worklets": "0.12.2",
-    "semantic-release": "^19.0.5",
     "ts-jest": "29.4.9",
     "ts-node": "10.9.1",
     "typescript": "6.0.3",
